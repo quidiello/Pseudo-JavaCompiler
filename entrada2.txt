@@ -5,7 +5,7 @@
 
 int i,e;
 double j;
-int[10] v;
+int[10][2] v;
 
 void main() {
   read i,e;

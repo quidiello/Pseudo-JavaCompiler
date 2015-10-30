@@ -45,10 +45,10 @@ declaracion:        tipo identificadores            { List<Variable> variables =
                                                     $$ = declaraciones; }
                     ;
 
-tipo:               INT                             { $$ = TipoEntero.getInstance();  }
-                    | DOUBLE                        { $$ = TipoDoble.getInstance();  }
-                    | CHAR                          { $$ = TipoCaracter.getInstance();  }
-                    | tipo '[' CTE_ENTERA ']'       { $$ = new TipoArray((Tipo)$1, (int)$3);  }
+tipo:               INT                             { $$ = TipoEntero.getInstance(lexico.getLinea(), lexico.getColumna());  }
+                    | DOUBLE                        { $$ = TipoDoble.getInstance(lexico.getLinea(), lexico.getColumna());  }
+                    | CHAR                          { $$ = TipoCaracter.getInstance(lexico.getLinea(), lexico.getColumna());  }
+                    | tipo '[' CTE_ENTERA ']'       { $$ = new TipoArray(lexico.getLinea(), lexico.getColumna(), (Tipo)$1, (int)$3);  }
                     ;
 
 identificadores:    IDENTIFICADOR                       { List<Variable> variables = new ArrayList<Variable>();

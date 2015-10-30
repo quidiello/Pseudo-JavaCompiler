@@ -580,19 +580,19 @@ case 4:
 break;
 case 5:
 //#line 48 "../src/miw/sintactico/sintactico.y"
-{ yyval = TipoEntero.getInstance();  }
+{ yyval = TipoEntero.getInstance(lexico.getLinea(), lexico.getColumna());  }
 break;
 case 6:
 //#line 49 "../src/miw/sintactico/sintactico.y"
-{ yyval = TipoDoble.getInstance();  }
+{ yyval = TipoDoble.getInstance(lexico.getLinea(), lexico.getColumna());  }
 break;
 case 7:
 //#line 50 "../src/miw/sintactico/sintactico.y"
-{ yyval = TipoCaracter.getInstance();  }
+{ yyval = TipoCaracter.getInstance(lexico.getLinea(), lexico.getColumna());  }
 break;
 case 8:
 //#line 51 "../src/miw/sintactico/sintactico.y"
-{ yyval = new TipoArray((Tipo)val_peek(3), (int)val_peek(1));  }
+{ yyval = new TipoArray(lexico.getLinea(), lexico.getColumna(), (Tipo)val_peek(3), (int)val_peek(1));  }
 break;
 case 9:
 //#line 54 "../src/miw/sintactico/sintactico.y"
