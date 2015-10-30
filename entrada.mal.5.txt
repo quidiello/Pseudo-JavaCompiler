@@ -1,0 +1,13 @@
+// Programa erróneo
+
+void main() {
+  	int entero;
+  	char caracter;
+  	read entero; 
+  	entero = '2' + 4;  //No se pueden sumar un char y un int
+  	entero = -4; 
+  	caracter = 'a' > 'b';	//No se puede asignar un int a un char
+  	caracter = -caracter; //No se puede hacer manos unario a char
+  	entero = 'a' || 'b'; 
+  	caracter = 4 || 0; //No se puede asignar un int a un char
+}
