@@ -13,4 +13,9 @@ public class TipoDoble implements Tipo {
         return INSTANCE;
     }
 
+    @Override
+    public String toString() {
+        return "double";
+    }
+
 }

@@ -13,4 +13,9 @@ public class TipoArray implements Tipo {
         this.size = size;
     }
 
+    @Override
+    public String toString() {
+        return tipo.toString() + "[" + size + "]";
+    }
+
 }

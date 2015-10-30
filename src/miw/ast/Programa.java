@@ -22,7 +22,7 @@ public class Programa extends AbstractNodoAST {
     public String toString() {
         String s = "";
         for (DefVariable defVariable : defVariables) {
-            s += "\n" + defVariable;
+            s += defVariable + "\n";
         }
         s += "void Main() {";
 

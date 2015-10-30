@@ -13,4 +13,9 @@ public class TipoEntero implements Tipo {
         return INSTANCE;
     }
 
+    @Override
+    public String toString() {
+        return "int";
+    }
+
 }

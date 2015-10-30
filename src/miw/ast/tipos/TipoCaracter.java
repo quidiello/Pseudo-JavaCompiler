@@ -13,4 +13,9 @@ public class TipoCaracter implements Tipo {
         return INSTANCE;
     }
 
+    @Override
+    public String toString() {
+        return "char";
+    }
+
 }

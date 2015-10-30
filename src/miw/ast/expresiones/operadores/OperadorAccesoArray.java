@@ -16,6 +16,6 @@ public class OperadorAccesoArray extends ExpresionBinaria {
 
     @Override
     public String toString() {
-        return "(" + leftValue + " " + operador + " " + rightValue + ")";
+        return "(" + leftValue + "[" + rightValue + "])";
     }
 }
