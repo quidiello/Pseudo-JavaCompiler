@@ -6,18 +6,16 @@ import miw.ast.tipos.Tipo;
 /**
  * Created by quidiello on 29/10/15.
  */
-public class DefVariable extends AbstractNodoAST implements Definicion {
+public class DefVariable extends AbstractDefinicion {
 
-    public String nombre;
-    public Tipo tipo;
+    public Integer offset;
+    public Integer ambito;
 
     public DefVariable(Integer linea, Integer columna, String nombre, Tipo tipo) {
-        super(linea, columna);
-        this.nombre = nombre;
-        this.tipo = tipo;
+        super(linea, columna, nombre, tipo);
     }
 
     public String toString() {
-        return tipo.toString() + " " + nombre;
+        return getTipo().toString() + " " + getNombre();
     }
 }

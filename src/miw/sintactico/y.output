@@ -1,762 +1,2724 @@
    0  $accept : programa $end
 
-   1  programa : declaraciones VOID MAIN '(' ')' '{' sentencias '}'
+   1  programa : definiciones
 
-   2  declaraciones : declaraciones declaracion ';'
-   3                |
+   2  definiciones : declaracionesFuncion
+   3               | declaraciones declaracionesFuncion
 
-   4  declaracion : tipo identificadores
+   4  declaraciones : declaraciones declaracion ';'
+   5                | declaracion ';'
 
-   5  tipo : INT
-   6       | DOUBLE
-   7       | CHAR
-   8       | tipo '[' CTE_ENTERA ']'
+   6  declaracion : tipo identificadores
 
-   9  identificadores : IDENTIFICADOR
-  10                  | identificadores ',' IDENTIFICADOR
+   7  tipo : INT
+   8       | DOUBLE
+   9       | CHAR
+  10       | tipo '[' CTE_ENTERA ']'
 
-  11  sentencias : sentencia
-  12             | sentencias sentencia
+  11  identificador : IDENTIFICADOR
 
-  13  sentencia : read ';'
-  14            | write ';'
-  15            | asignacion ';'
+  12  identificadores : identificador
+  13                  | identificadores ',' identificador
 
-  16  asignacion : expresion '=' expresion
+  14  sentencias : sentencia
+  15             | sentencias sentencia
 
-  17  read : READ expresiones
+  16  sentencia : read ';'
+  17            | write ';'
+  18            | asignacion ';'
+  19            | return ';'
+  20            | while
+  21            | if
+  22            | funcion ';'
 
-  18  write : WRITE expresiones
+  23  if : if_sentencia
+  24     | if_sentencias
 
-  19  expresiones : expresion
-  20              | expresiones ',' expresion
+  25  if_sentencia : IF '(' expresion ')' sentencia
+  26               | IF '(' expresion ')' sentencia else
 
-  21  expresion : expresion '+' expresion
-  22            | expresion '-' expresion
-  23            | expresion '*' expresion
-  24            | expresion '/' expresion
-  25            | expresion '%' expresion
-  26            | '-' expresion
-  27            | expresion '[' expresion ']'
-  28            | '(' expresion ')'
-  29            | CTE_ENTERA
-  30            | CTE_DOBLE
-  31            | CTE_CARACTER
-  32            | IDENTIFICADOR
+  27  if_sentencias : IF '(' expresion ')' bloque
+  28                | IF '(' expresion ')' bloque else
+
+  29  else : ELSE sentencia
+  30       | ELSE bloque
+
+  31  bloque : '{' '}'
+  32         | '{' sentencias '}'
+
+  33  asignacion : expresion '=' expresion
+
+  34  read : READ expresiones
+
+  35  write : WRITE expresiones
+
+  36  return : RETURN expresion
+
+  37  while : WHILE '(' expresion ')' bloque
+
+  38  funcion : identificador '(' ')'
+  39          | identificador '(' expresiones ')'
+
+  40  parametros : parametros ',' parametro
+  41             | parametro
+
+  42  parametro : tipo identificador
+
+  43  nombreFuncion : identificador
+  44                | MAIN
+
+  45  declaracionFuncion : VOID nombreFuncion '(' ')' '{' declaraciones sentencias '}'
+  46                     | VOID nombreFuncion '(' ')' '{' sentencias '}'
+  47                     | VOID nombreFuncion '(' parametros ')' '{' declaraciones sentencias '}'
+  48                     | VOID nombreFuncion '(' parametros ')' '{' sentencias '}'
+  49                     | tipo nombreFuncion '(' ')' '{' declaraciones sentencias '}'
+  50                     | tipo nombreFuncion '(' ')' '{' sentencias '}'
+  51                     | tipo nombreFuncion '(' parametros ')' '{' declaraciones sentencias '}'
+  52                     | tipo nombreFuncion '(' parametros ')' '{' sentencias '}'
+
+  53  declaracionesFuncion : declaracionFuncion
+  54                       | declaracionesFuncion declaracionFuncion
+
+  55  expresiones : expresion
+  56              | expresiones ',' expresion
+
+  57  expresion : expresion '+' expresion
+  58            | expresion '-' expresion
+  59            | expresion '*' expresion
+  60            | expresion '/' expresion
+  61            | expresion '%' expresion
+  62            | expresion AND expresion
+  63            | expresion OR expresion
+  64            | '!' expresion
+  65            | expresion IGUAL expresion
+  66            | expresion DISTINTO expresion
+  67            | expresion MENOR_IGUAL expresion
+  68            | expresion MAYOR_IGUAL expresion
+  69            | '-' expresion
+  70            | expresion '[' expresion ']'
+  71            | '(' expresion ')'
+  72            | CTE_ENTERA
+  73            | CTE_DOBLE
+  74            | CTE_CARACTER
+  75            | identificador
+  76            | funcion
 
 state 0
 	$accept : . programa $end  (0)
-	declaraciones : .  (3)
 
-	.  reduce 3
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	VOID  shift 4
+	.  error
 
-	programa  goto 1
-	declaraciones  goto 2
+	programa  goto 5
+	definiciones  goto 6
+	declaracionesFuncion  goto 7
+	declaraciones  goto 8
+	declaracion  goto 9
+	tipo  goto 10
+	declaracionFuncion  goto 11
 
 
 state 1
+	tipo : INT .  (7)
+
+	.  reduce 7
+
+
+state 2
+	tipo : DOUBLE .  (8)
+
+	.  reduce 8
+
+
+state 3
+	tipo : CHAR .  (9)
+
+	.  reduce 9
+
+
+state 4
+	declaracionFuncion : VOID . nombreFuncion '(' ')' '{' declaraciones sentencias '}'  (45)
+	declaracionFuncion : VOID . nombreFuncion '(' ')' '{' sentencias '}'  (46)
+	declaracionFuncion : VOID . nombreFuncion '(' parametros ')' '{' declaraciones sentencias '}'  (47)
+	declaracionFuncion : VOID . nombreFuncion '(' parametros ')' '{' sentencias '}'  (48)
+
+	IDENTIFICADOR  shift 12
+	MAIN  shift 13
+	.  error
+
+	identificador  goto 14
+	nombreFuncion  goto 15
+
+
+state 5
 	$accept : programa . $end  (0)
 
 	$end  accept
 
 
-state 2
-	programa : declaraciones . VOID MAIN '(' ')' '{' sentencias '}'  (1)
-	declaraciones : declaraciones . declaracion ';'  (2)
-
-	INT  shift 3
-	DOUBLE  shift 4
-	CHAR  shift 5
-	VOID  shift 6
-	.  error
-
-	declaracion  goto 7
-	tipo  goto 8
-
-
-state 3
-	tipo : INT .  (5)
-
-	.  reduce 5
-
-
-state 4
-	tipo : DOUBLE .  (6)
-
-	.  reduce 6
-
-
-state 5
-	tipo : CHAR .  (7)
-
-	.  reduce 7
-
-
 state 6
-	programa : declaraciones VOID . MAIN '(' ')' '{' sentencias '}'  (1)
-
-	MAIN  shift 9
-	.  error
-
-
-state 7
-	declaraciones : declaraciones declaracion . ';'  (2)
-
-	';'  shift 10
-	.  error
-
-
-state 8
-	declaracion : tipo . identificadores  (4)
-	tipo : tipo . '[' CTE_ENTERA ']'  (8)
-
-	IDENTIFICADOR  shift 11
-	'['  shift 12
-	.  error
-
-	identificadores  goto 13
-
-
-state 9
-	programa : declaraciones VOID MAIN . '(' ')' '{' sentencias '}'  (1)
-
-	'('  shift 14
-	.  error
-
-
-state 10
-	declaraciones : declaraciones declaracion ';' .  (2)
-
-	.  reduce 2
-
-
-state 11
-	identificadores : IDENTIFICADOR .  (9)
-
-	.  reduce 9
-
-
-state 12
-	tipo : tipo '[' . CTE_ENTERA ']'  (8)
-
-	CTE_ENTERA  shift 15
-	.  error
-
-
-state 13
-	declaracion : tipo identificadores .  (4)
-	identificadores : identificadores . ',' IDENTIFICADOR  (10)
-
-	','  shift 16
-	';'  reduce 4
-
-
-state 14
-	programa : declaraciones VOID MAIN '(' . ')' '{' sentencias '}'  (1)
-
-	')'  shift 17
-	.  error
-
-
-state 15
-	tipo : tipo '[' CTE_ENTERA . ']'  (8)
-
-	']'  shift 18
-	.  error
-
-
-state 16
-	identificadores : identificadores ',' . IDENTIFICADOR  (10)
-
-	IDENTIFICADOR  shift 19
-	.  error
-
-
-state 17
-	programa : declaraciones VOID MAIN '(' ')' . '{' sentencias '}'  (1)
-
-	'{'  shift 20
-	.  error
-
-
-state 18
-	tipo : tipo '[' CTE_ENTERA ']' .  (8)
-
-	.  reduce 8
-
-
-state 19
-	identificadores : identificadores ',' IDENTIFICADOR .  (10)
-
-	.  reduce 10
-
-
-state 20
-	programa : declaraciones VOID MAIN '(' ')' '{' . sentencias '}'  (1)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	WRITE  shift 25
-	READ  shift 26
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	sentencias  goto 29
-	sentencia  goto 30
-	read  goto 31
-	write  goto 32
-	asignacion  goto 33
-	expresion  goto 34
-
-
-state 21
-	expresion : CTE_ENTERA .  (29)
-
-	.  reduce 29
-
-
-state 22
-	expresion : CTE_CARACTER .  (31)
-
-	.  reduce 31
-
-
-state 23
-	expresion : CTE_DOBLE .  (30)
-
-	.  reduce 30
-
-
-state 24
-	expresion : IDENTIFICADOR .  (32)
-
-	.  reduce 32
-
-
-state 25
-	write : WRITE . expresiones  (18)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 35
-	expresiones  goto 36
-
-
-state 26
-	read : READ . expresiones  (17)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 35
-	expresiones  goto 37
-
-
-state 27
-	expresion : '-' . expresion  (26)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 38
-
-
-state 28
-	expresion : '(' . expresion ')'  (28)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 39
-
-
-state 29
-	programa : declaraciones VOID MAIN '(' ')' '{' sentencias . '}'  (1)
-	sentencias : sentencias . sentencia  (12)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	WRITE  shift 25
-	READ  shift 26
-	'-'  shift 27
-	'('  shift 28
-	'}'  shift 40
-	.  error
-
-	sentencia  goto 41
-	read  goto 31
-	write  goto 32
-	asignacion  goto 33
-	expresion  goto 34
-
-
-state 30
-	sentencias : sentencia .  (11)
-
-	.  reduce 11
-
-
-state 31
-	sentencia : read . ';'  (13)
-
-	';'  shift 42
-	.  error
-
-
-state 32
-	sentencia : write . ';'  (14)
-
-	';'  shift 43
-	.  error
-
-
-state 33
-	sentencia : asignacion . ';'  (15)
-
-	';'  shift 44
-	.  error
-
-
-state 34
-	asignacion : expresion . '=' expresion  (16)
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : expresion . '[' expresion ']'  (27)
-
-	'='  shift 45
-	'+'  shift 46
-	'-'  shift 47
-	'*'  shift 48
-	'/'  shift 49
-	'%'  shift 50
-	'['  shift 51
-	.  error
-
-
-state 35
-	expresiones : expresion .  (19)
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : expresion . '[' expresion ']'  (27)
-
-	'+'  shift 46
-	'-'  shift 47
-	'*'  shift 48
-	'/'  shift 49
-	'%'  shift 50
-	'['  shift 51
-	';'  reduce 19
-	','  reduce 19
-
-
-state 36
-	write : WRITE expresiones .  (18)
-	expresiones : expresiones . ',' expresion  (20)
-
-	','  shift 52
-	';'  reduce 18
-
-
-state 37
-	read : READ expresiones .  (17)
-	expresiones : expresiones . ',' expresion  (20)
-
-	','  shift 52
-	';'  reduce 17
-
-
-state 38
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : '-' expresion .  (26)
-	expresion : expresion . '[' expresion ']'  (27)
-
-	'['  shift 51
-	'='  reduce 26
-	'+'  reduce 26
-	'-'  reduce 26
-	'*'  reduce 26
-	'/'  reduce 26
-	'%'  reduce 26
-	']'  reduce 26
-	')'  reduce 26
-	';'  reduce 26
-	','  reduce 26
-
-
-state 39
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : expresion . '[' expresion ']'  (27)
-	expresion : '(' expresion . ')'  (28)
-
-	'+'  shift 46
-	'-'  shift 47
-	'*'  shift 48
-	'/'  shift 49
-	'%'  shift 50
-	'['  shift 51
-	')'  shift 53
-	.  error
-
-
-state 40
-	programa : declaraciones VOID MAIN '(' ')' '{' sentencias '}' .  (1)
+	programa : definiciones .  (1)
 
 	.  reduce 1
 
 
-state 41
-	sentencias : sentencias sentencia .  (12)
+state 7
+	definiciones : declaracionesFuncion .  (2)
+	declaracionesFuncion : declaracionesFuncion . declaracionFuncion  (54)
 
-	.  reduce 12
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	VOID  shift 4
+	$end  reduce 2
+
+	tipo  goto 16
+	declaracionFuncion  goto 17
 
 
-state 42
-	sentencia : read ';' .  (13)
+state 8
+	definiciones : declaraciones . declaracionesFuncion  (3)
+	declaraciones : declaraciones . declaracion ';'  (4)
+
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	VOID  shift 4
+	.  error
+
+	declaracionesFuncion  goto 18
+	declaracion  goto 19
+	tipo  goto 10
+	declaracionFuncion  goto 11
+
+
+state 9
+	declaraciones : declaracion . ';'  (5)
+
+	';'  shift 20
+	.  error
+
+
+state 10
+	declaracion : tipo . identificadores  (6)
+	tipo : tipo . '[' CTE_ENTERA ']'  (10)
+	declaracionFuncion : tipo . nombreFuncion '(' ')' '{' declaraciones sentencias '}'  (49)
+	declaracionFuncion : tipo . nombreFuncion '(' ')' '{' sentencias '}'  (50)
+	declaracionFuncion : tipo . nombreFuncion '(' parametros ')' '{' declaraciones sentencias '}'  (51)
+	declaracionFuncion : tipo . nombreFuncion '(' parametros ')' '{' sentencias '}'  (52)
+
+	IDENTIFICADOR  shift 12
+	MAIN  shift 13
+	'['  shift 21
+	.  error
+
+	identificadores  goto 22
+	identificador  goto 23
+	nombreFuncion  goto 24
+
+
+state 11
+	declaracionesFuncion : declaracionFuncion .  (53)
+
+	.  reduce 53
+
+
+state 12
+	identificador : IDENTIFICADOR .  (11)
+
+	.  reduce 11
+
+
+state 13
+	nombreFuncion : MAIN .  (44)
+
+	.  reduce 44
+
+
+state 14
+	nombreFuncion : identificador .  (43)
+
+	.  reduce 43
+
+
+state 15
+	declaracionFuncion : VOID nombreFuncion . '(' ')' '{' declaraciones sentencias '}'  (45)
+	declaracionFuncion : VOID nombreFuncion . '(' ')' '{' sentencias '}'  (46)
+	declaracionFuncion : VOID nombreFuncion . '(' parametros ')' '{' declaraciones sentencias '}'  (47)
+	declaracionFuncion : VOID nombreFuncion . '(' parametros ')' '{' sentencias '}'  (48)
+
+	'('  shift 25
+	.  error
+
+
+state 16
+	tipo : tipo . '[' CTE_ENTERA ']'  (10)
+	declaracionFuncion : tipo . nombreFuncion '(' ')' '{' declaraciones sentencias '}'  (49)
+	declaracionFuncion : tipo . nombreFuncion '(' ')' '{' sentencias '}'  (50)
+	declaracionFuncion : tipo . nombreFuncion '(' parametros ')' '{' declaraciones sentencias '}'  (51)
+	declaracionFuncion : tipo . nombreFuncion '(' parametros ')' '{' sentencias '}'  (52)
+
+	IDENTIFICADOR  shift 12
+	MAIN  shift 13
+	'['  shift 21
+	.  error
+
+	identificador  goto 14
+	nombreFuncion  goto 24
+
+
+state 17
+	declaracionesFuncion : declaracionesFuncion declaracionFuncion .  (54)
+
+	.  reduce 54
+
+
+state 18
+	definiciones : declaraciones declaracionesFuncion .  (3)
+	declaracionesFuncion : declaracionesFuncion . declaracionFuncion  (54)
+
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	VOID  shift 4
+	$end  reduce 3
+
+	tipo  goto 16
+	declaracionFuncion  goto 17
+
+
+state 19
+	declaraciones : declaraciones declaracion . ';'  (4)
+
+	';'  shift 26
+	.  error
+
+
+state 20
+	declaraciones : declaracion ';' .  (5)
+
+	.  reduce 5
+
+
+state 21
+	tipo : tipo '[' . CTE_ENTERA ']'  (10)
+
+	CTE_ENTERA  shift 27
+	.  error
+
+
+state 22
+	declaracion : tipo identificadores .  (6)
+	identificadores : identificadores . ',' identificador  (13)
+
+	','  shift 28
+	';'  reduce 6
+
+
+state 23
+	identificadores : identificador .  (12)
+	nombreFuncion : identificador .  (43)
+
+	'('  reduce 43
+	';'  reduce 12
+	','  reduce 12
+
+
+state 24
+	declaracionFuncion : tipo nombreFuncion . '(' ')' '{' declaraciones sentencias '}'  (49)
+	declaracionFuncion : tipo nombreFuncion . '(' ')' '{' sentencias '}'  (50)
+	declaracionFuncion : tipo nombreFuncion . '(' parametros ')' '{' declaraciones sentencias '}'  (51)
+	declaracionFuncion : tipo nombreFuncion . '(' parametros ')' '{' sentencias '}'  (52)
+
+	'('  shift 29
+	.  error
+
+
+state 25
+	declaracionFuncion : VOID nombreFuncion '(' . ')' '{' declaraciones sentencias '}'  (45)
+	declaracionFuncion : VOID nombreFuncion '(' . ')' '{' sentencias '}'  (46)
+	declaracionFuncion : VOID nombreFuncion '(' . parametros ')' '{' declaraciones sentencias '}'  (47)
+	declaracionFuncion : VOID nombreFuncion '(' . parametros ')' '{' sentencias '}'  (48)
+
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	')'  shift 30
+	.  error
+
+	tipo  goto 31
+	parametros  goto 32
+	parametro  goto 33
+
+
+state 26
+	declaraciones : declaraciones declaracion ';' .  (4)
+
+	.  reduce 4
+
+
+state 27
+	tipo : tipo '[' CTE_ENTERA . ']'  (10)
+
+	']'  shift 34
+	.  error
+
+
+state 28
+	identificadores : identificadores ',' . identificador  (13)
+
+	IDENTIFICADOR  shift 12
+	.  error
+
+	identificador  goto 35
+
+
+state 29
+	declaracionFuncion : tipo nombreFuncion '(' . ')' '{' declaraciones sentencias '}'  (49)
+	declaracionFuncion : tipo nombreFuncion '(' . ')' '{' sentencias '}'  (50)
+	declaracionFuncion : tipo nombreFuncion '(' . parametros ')' '{' declaraciones sentencias '}'  (51)
+	declaracionFuncion : tipo nombreFuncion '(' . parametros ')' '{' sentencias '}'  (52)
+
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	')'  shift 36
+	.  error
+
+	tipo  goto 31
+	parametros  goto 37
+	parametro  goto 33
+
+
+state 30
+	declaracionFuncion : VOID nombreFuncion '(' ')' . '{' declaraciones sentencias '}'  (45)
+	declaracionFuncion : VOID nombreFuncion '(' ')' . '{' sentencias '}'  (46)
+
+	'{'  shift 38
+	.  error
+
+
+state 31
+	tipo : tipo . '[' CTE_ENTERA ']'  (10)
+	parametro : tipo . identificador  (42)
+
+	IDENTIFICADOR  shift 12
+	'['  shift 21
+	.  error
+
+	identificador  goto 39
+
+
+state 32
+	parametros : parametros . ',' parametro  (40)
+	declaracionFuncion : VOID nombreFuncion '(' parametros . ')' '{' declaraciones sentencias '}'  (47)
+	declaracionFuncion : VOID nombreFuncion '(' parametros . ')' '{' sentencias '}'  (48)
+
+	')'  shift 40
+	','  shift 41
+	.  error
+
+
+state 33
+	parametros : parametro .  (41)
+
+	.  reduce 41
+
+
+state 34
+	tipo : tipo '[' CTE_ENTERA ']' .  (10)
+
+	.  reduce 10
+
+
+state 35
+	identificadores : identificadores ',' identificador .  (13)
 
 	.  reduce 13
 
 
+state 36
+	declaracionFuncion : tipo nombreFuncion '(' ')' . '{' declaraciones sentencias '}'  (49)
+	declaracionFuncion : tipo nombreFuncion '(' ')' . '{' sentencias '}'  (50)
+
+	'{'  shift 42
+	.  error
+
+
+state 37
+	parametros : parametros . ',' parametro  (40)
+	declaracionFuncion : tipo nombreFuncion '(' parametros . ')' '{' declaraciones sentencias '}'  (51)
+	declaracionFuncion : tipo nombreFuncion '(' parametros . ')' '{' sentencias '}'  (52)
+
+	')'  shift 43
+	','  shift 41
+	.  error
+
+
+state 38
+	declaracionFuncion : VOID nombreFuncion '(' ')' '{' . declaraciones sentencias '}'  (45)
+	declaracionFuncion : VOID nombreFuncion '(' ')' '{' . sentencias '}'  (46)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	declaraciones  goto 55
+	declaracion  goto 9
+	tipo  goto 56
+	identificador  goto 57
+	sentencias  goto 58
+	sentencia  goto 59
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 39
+	parametro : tipo identificador .  (42)
+
+	.  reduce 42
+
+
+state 40
+	declaracionFuncion : VOID nombreFuncion '(' parametros ')' . '{' declaraciones sentencias '}'  (47)
+	declaracionFuncion : VOID nombreFuncion '(' parametros ')' . '{' sentencias '}'  (48)
+
+	'{'  shift 70
+	.  error
+
+
+state 41
+	parametros : parametros ',' . parametro  (40)
+
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	.  error
+
+	tipo  goto 31
+	parametro  goto 71
+
+
+state 42
+	declaracionFuncion : tipo nombreFuncion '(' ')' '{' . declaraciones sentencias '}'  (49)
+	declaracionFuncion : tipo nombreFuncion '(' ')' '{' . sentencias '}'  (50)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	declaraciones  goto 72
+	declaracion  goto 9
+	tipo  goto 56
+	identificador  goto 57
+	sentencias  goto 73
+	sentencia  goto 59
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
 state 43
-	sentencia : write ';' .  (14)
+	declaracionFuncion : tipo nombreFuncion '(' parametros ')' . '{' declaraciones sentencias '}'  (51)
+	declaracionFuncion : tipo nombreFuncion '(' parametros ')' . '{' sentencias '}'  (52)
+
+	'{'  shift 74
+	.  error
+
+
+state 44
+	expresion : CTE_ENTERA .  (72)
+
+	.  reduce 72
+
+
+state 45
+	expresion : CTE_CARACTER .  (74)
+
+	.  reduce 74
+
+
+state 46
+	expresion : CTE_DOBLE .  (73)
+
+	.  reduce 73
+
+
+state 47
+	if_sentencia : IF . '(' expresion ')' sentencia  (25)
+	if_sentencia : IF . '(' expresion ')' sentencia else  (26)
+	if_sentencias : IF . '(' expresion ')' bloque  (27)
+	if_sentencias : IF . '(' expresion ')' bloque else  (28)
+
+	'('  shift 75
+	.  error
+
+
+state 48
+	while : WHILE . '(' expresion ')' bloque  (37)
+
+	'('  shift 76
+	.  error
+
+
+state 49
+	write : WRITE . expresiones  (35)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 78
+	expresiones  goto 79
+
+
+state 50
+	read : READ . expresiones  (34)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 78
+	expresiones  goto 80
+
+
+state 51
+	return : RETURN . expresion  (36)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 81
+
+
+state 52
+	expresion : '!' . expresion  (64)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 82
+
+
+state 53
+	expresion : '-' . expresion  (69)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 83
+
+
+state 54
+	expresion : '(' . expresion ')'  (71)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 84
+
+
+state 55
+	declaraciones : declaraciones . declaracion ';'  (4)
+	declaracionFuncion : VOID nombreFuncion '(' ')' '{' declaraciones . sentencias '}'  (45)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	declaracion  goto 19
+	tipo  goto 56
+	identificador  goto 57
+	sentencias  goto 85
+	sentencia  goto 59
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 56
+	declaracion : tipo . identificadores  (6)
+	tipo : tipo . '[' CTE_ENTERA ']'  (10)
+
+	IDENTIFICADOR  shift 12
+	'['  shift 21
+	.  error
+
+	identificadores  goto 22
+	identificador  goto 86
+
+
+state 57
+	funcion : identificador . '(' ')'  (38)
+	funcion : identificador . '(' expresiones ')'  (39)
+	expresion : identificador .  (75)
+
+	'('  shift 87
+	IGUAL  reduce 75
+	DISTINTO  reduce 75
+	MAYOR_IGUAL  reduce 75
+	MENOR_IGUAL  reduce 75
+	OR  reduce 75
+	AND  reduce 75
+	'='  reduce 75
+	'+'  reduce 75
+	'-'  reduce 75
+	'*'  reduce 75
+	'/'  reduce 75
+	'%'  reduce 75
+	'['  reduce 75
+	']'  reduce 75
+	')'  reduce 75
+	';'  reduce 75
+	','  reduce 75
+
+
+state 58
+	sentencias : sentencias . sentencia  (15)
+	declaracionFuncion : VOID nombreFuncion '(' ')' '{' sentencias . '}'  (46)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'}'  shift 88
+	.  error
+
+	identificador  goto 57
+	sentencia  goto 89
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 59
+	sentencias : sentencia .  (14)
 
 	.  reduce 14
 
 
-state 44
-	sentencia : asignacion ';' .  (15)
-
-	.  reduce 15
-
-
-state 45
-	asignacion : expresion '=' . expresion  (16)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 54
-
-
-state 46
-	expresion : expresion '+' . expresion  (21)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 55
-
-
-state 47
-	expresion : expresion '-' . expresion  (22)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 56
-
-
-state 48
-	expresion : expresion '*' . expresion  (23)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 57
-
-
-state 49
-	expresion : expresion '/' . expresion  (24)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 58
-
-
-state 50
-	expresion : expresion '%' . expresion  (25)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 59
-
-
-state 51
-	expresion : expresion '[' . expresion ']'  (27)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 60
-
-
-state 52
-	expresiones : expresiones ',' . expresion  (20)
-
-	CTE_ENTERA  shift 21
-	CTE_CARACTER  shift 22
-	CTE_DOBLE  shift 23
-	IDENTIFICADOR  shift 24
-	'-'  shift 27
-	'('  shift 28
-	.  error
-
-	expresion  goto 61
-
-
-state 53
-	expresion : '(' expresion ')' .  (28)
-
-	.  reduce 28
-
-
-state 54
-	asignacion : expresion '=' expresion .  (16)
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : expresion . '[' expresion ']'  (27)
-
-	'+'  shift 46
-	'-'  shift 47
-	'*'  shift 48
-	'/'  shift 49
-	'%'  shift 50
-	'['  shift 51
-	';'  reduce 16
-
-
-state 55
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion '+' expresion .  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : expresion . '[' expresion ']'  (27)
-
-	'*'  shift 48
-	'/'  shift 49
-	'%'  shift 50
-	'['  shift 51
-	'='  reduce 21
-	'+'  reduce 21
-	'-'  reduce 21
-	']'  reduce 21
-	')'  reduce 21
-	';'  reduce 21
-	','  reduce 21
-
-
-state 56
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion '-' expresion .  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : expresion . '[' expresion ']'  (27)
-
-	'*'  shift 48
-	'/'  shift 49
-	'%'  shift 50
-	'['  shift 51
-	'='  reduce 22
-	'+'  reduce 22
-	'-'  reduce 22
-	']'  reduce 22
-	')'  reduce 22
-	';'  reduce 22
-	','  reduce 22
-
-
-state 57
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion '*' expresion .  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : expresion . '[' expresion ']'  (27)
-
-	'['  shift 51
-	'='  reduce 23
-	'+'  reduce 23
-	'-'  reduce 23
-	'*'  reduce 23
-	'/'  reduce 23
-	'%'  reduce 23
-	']'  reduce 23
-	')'  reduce 23
-	';'  reduce 23
-	','  reduce 23
-
-
-state 58
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion '/' expresion .  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : expresion . '[' expresion ']'  (27)
-
-	'['  shift 51
-	'='  reduce 24
-	'+'  reduce 24
-	'-'  reduce 24
-	'*'  reduce 24
-	'/'  reduce 24
-	'%'  reduce 24
-	']'  reduce 24
-	')'  reduce 24
-	';'  reduce 24
-	','  reduce 24
-
-
-state 59
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : expresion '%' expresion .  (25)
-	expresion : expresion . '[' expresion ']'  (27)
-
-	'['  shift 51
-	'='  reduce 25
-	'+'  reduce 25
-	'-'  reduce 25
-	'*'  reduce 25
-	'/'  reduce 25
-	'%'  reduce 25
-	']'  reduce 25
-	')'  reduce 25
-	';'  reduce 25
-	','  reduce 25
-
-
 state 60
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : expresion . '[' expresion ']'  (27)
-	expresion : expresion '[' expresion . ']'  (27)
+	sentencia : read . ';'  (16)
 
-	'+'  shift 46
-	'-'  shift 47
-	'*'  shift 48
-	'/'  shift 49
-	'%'  shift 50
-	'['  shift 51
-	']'  shift 62
+	';'  shift 90
 	.  error
 
 
 state 61
-	expresiones : expresiones ',' expresion .  (20)
-	expresion : expresion . '+' expresion  (21)
-	expresion : expresion . '-' expresion  (22)
-	expresion : expresion . '*' expresion  (23)
-	expresion : expresion . '/' expresion  (24)
-	expresion : expresion . '%' expresion  (25)
-	expresion : expresion . '[' expresion ']'  (27)
+	sentencia : write . ';'  (17)
 
-	'+'  shift 46
-	'-'  shift 47
-	'*'  shift 48
-	'/'  shift 49
-	'%'  shift 50
-	'['  shift 51
-	';'  reduce 20
-	','  reduce 20
+	';'  shift 91
+	.  error
 
 
 state 62
-	expresion : expresion '[' expresion ']' .  (27)
+	sentencia : asignacion . ';'  (18)
 
-	.  reduce 27
+	';'  shift 92
+	.  error
 
 
-40 terminals, 13 nonterminals
-33 grammar rules, 63 states
+state 63
+	sentencia : return . ';'  (19)
+
+	';'  shift 93
+	.  error
+
+
+state 64
+	sentencia : while .  (20)
+
+	.  reduce 20
+
+
+state 65
+	sentencia : if .  (21)
+
+	.  reduce 21
+
+
+state 66
+	sentencia : funcion . ';'  (22)
+	expresion : funcion .  (76)
+
+	';'  shift 94
+	IGUAL  reduce 76
+	DISTINTO  reduce 76
+	MAYOR_IGUAL  reduce 76
+	MENOR_IGUAL  reduce 76
+	OR  reduce 76
+	AND  reduce 76
+	'='  reduce 76
+	'+'  reduce 76
+	'-'  reduce 76
+	'*'  reduce 76
+	'/'  reduce 76
+	'%'  reduce 76
+	'['  reduce 76
+
+
+state 67
+	if : if_sentencia .  (23)
+
+	.  reduce 23
+
+
+state 68
+	if : if_sentencias .  (24)
+
+	.  reduce 24
+
+
+state 69
+	asignacion : expresion . '=' expresion  (33)
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	OR  shift 99
+	AND  shift 100
+	'='  shift 101
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	.  error
+
+
+state 70
+	declaracionFuncion : VOID nombreFuncion '(' parametros ')' '{' . declaraciones sentencias '}'  (47)
+	declaracionFuncion : VOID nombreFuncion '(' parametros ')' '{' . sentencias '}'  (48)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	declaraciones  goto 108
+	declaracion  goto 9
+	tipo  goto 56
+	identificador  goto 57
+	sentencias  goto 109
+	sentencia  goto 59
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 71
+	parametros : parametros ',' parametro .  (40)
+
+	.  reduce 40
+
+
+state 72
+	declaraciones : declaraciones . declaracion ';'  (4)
+	declaracionFuncion : tipo nombreFuncion '(' ')' '{' declaraciones . sentencias '}'  (49)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	declaracion  goto 19
+	tipo  goto 56
+	identificador  goto 57
+	sentencias  goto 110
+	sentencia  goto 59
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 73
+	sentencias : sentencias . sentencia  (15)
+	declaracionFuncion : tipo nombreFuncion '(' ')' '{' sentencias . '}'  (50)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'}'  shift 111
+	.  error
+
+	identificador  goto 57
+	sentencia  goto 89
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 74
+	declaracionFuncion : tipo nombreFuncion '(' parametros ')' '{' . declaraciones sentencias '}'  (51)
+	declaracionFuncion : tipo nombreFuncion '(' parametros ')' '{' . sentencias '}'  (52)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	declaraciones  goto 112
+	declaracion  goto 9
+	tipo  goto 56
+	identificador  goto 57
+	sentencias  goto 113
+	sentencia  goto 59
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 75
+	if_sentencia : IF '(' . expresion ')' sentencia  (25)
+	if_sentencia : IF '(' . expresion ')' sentencia else  (26)
+	if_sentencias : IF '(' . expresion ')' bloque  (27)
+	if_sentencias : IF '(' . expresion ')' bloque else  (28)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 114
+
+
+state 76
+	while : WHILE '(' . expresion ')' bloque  (37)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 115
+
+
+state 77
+	expresion : funcion .  (76)
+
+	.  reduce 76
+
+
+state 78
+	expresiones : expresion .  (55)
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	OR  shift 99
+	AND  shift 100
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	')'  reduce 55
+	';'  reduce 55
+	','  reduce 55
+
+
+state 79
+	write : WRITE expresiones .  (35)
+	expresiones : expresiones . ',' expresion  (56)
+
+	','  shift 116
+	';'  reduce 35
+
+
+state 80
+	read : READ expresiones .  (34)
+	expresiones : expresiones . ',' expresion  (56)
+
+	','  shift 116
+	';'  reduce 34
+
+
+state 81
+	return : RETURN expresion .  (36)
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	OR  shift 99
+	AND  shift 100
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	';'  reduce 36
+
+
+state 82
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : '!' expresion .  (64)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	OR  reduce 64
+	AND  reduce 64
+	'='  reduce 64
+	']'  reduce 64
+	')'  reduce 64
+	';'  reduce 64
+	','  reduce 64
+
+
+state 83
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : '-' expresion .  (69)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	'['  shift 107
+	IGUAL  reduce 69
+	DISTINTO  reduce 69
+	MAYOR_IGUAL  reduce 69
+	MENOR_IGUAL  reduce 69
+	OR  reduce 69
+	AND  reduce 69
+	'='  reduce 69
+	'+'  reduce 69
+	'-'  reduce 69
+	'*'  reduce 69
+	'/'  reduce 69
+	'%'  reduce 69
+	']'  reduce 69
+	')'  reduce 69
+	';'  reduce 69
+	','  reduce 69
+
+
+state 84
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : '(' expresion . ')'  (71)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	OR  shift 99
+	AND  shift 100
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	')'  shift 117
+	.  error
+
+
+state 85
+	sentencias : sentencias . sentencia  (15)
+	declaracionFuncion : VOID nombreFuncion '(' ')' '{' declaraciones sentencias . '}'  (45)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'}'  shift 118
+	.  error
+
+	identificador  goto 57
+	sentencia  goto 89
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 86
+	identificadores : identificador .  (12)
+
+	.  reduce 12
+
+
+state 87
+	funcion : identificador '(' . ')'  (38)
+	funcion : identificador '(' . expresiones ')'  (39)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	')'  shift 119
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 78
+	expresiones  goto 120
+
+
+state 88
+	declaracionFuncion : VOID nombreFuncion '(' ')' '{' sentencias '}' .  (46)
+
+	.  reduce 46
+
+
+state 89
+	sentencias : sentencias sentencia .  (15)
+
+	.  reduce 15
+
+
+state 90
+	sentencia : read ';' .  (16)
+
+	.  reduce 16
+
+
+state 91
+	sentencia : write ';' .  (17)
+
+	.  reduce 17
+
+
+state 92
+	sentencia : asignacion ';' .  (18)
+
+	.  reduce 18
+
+
+state 93
+	sentencia : return ';' .  (19)
+
+	.  reduce 19
+
+
+state 94
+	sentencia : funcion ';' .  (22)
+
+	.  reduce 22
+
+
+state 95
+	expresion : expresion IGUAL . expresion  (65)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 121
+
+
+state 96
+	expresion : expresion DISTINTO . expresion  (66)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 122
+
+
+state 97
+	expresion : expresion MAYOR_IGUAL . expresion  (68)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 123
+
+
+state 98
+	expresion : expresion MENOR_IGUAL . expresion  (67)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 124
+
+
+state 99
+	expresion : expresion OR . expresion  (63)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 125
+
+
+state 100
+	expresion : expresion AND . expresion  (62)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 126
+
+
+state 101
+	asignacion : expresion '=' . expresion  (33)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 127
+
+
+state 102
+	expresion : expresion '+' . expresion  (57)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 128
+
+
+state 103
+	expresion : expresion '-' . expresion  (58)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 129
+
+
+state 104
+	expresion : expresion '*' . expresion  (59)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 130
+
+
+state 105
+	expresion : expresion '/' . expresion  (60)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 131
+
+
+state 106
+	expresion : expresion '%' . expresion  (61)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 132
+
+
+state 107
+	expresion : expresion '[' . expresion ']'  (70)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 133
+
+
+state 108
+	declaraciones : declaraciones . declaracion ';'  (4)
+	declaracionFuncion : VOID nombreFuncion '(' parametros ')' '{' declaraciones . sentencias '}'  (47)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	declaracion  goto 19
+	tipo  goto 56
+	identificador  goto 57
+	sentencias  goto 134
+	sentencia  goto 59
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 109
+	sentencias : sentencias . sentencia  (15)
+	declaracionFuncion : VOID nombreFuncion '(' parametros ')' '{' sentencias . '}'  (48)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'}'  shift 135
+	.  error
+
+	identificador  goto 57
+	sentencia  goto 89
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 110
+	sentencias : sentencias . sentencia  (15)
+	declaracionFuncion : tipo nombreFuncion '(' ')' '{' declaraciones sentencias . '}'  (49)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'}'  shift 136
+	.  error
+
+	identificador  goto 57
+	sentencia  goto 89
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 111
+	declaracionFuncion : tipo nombreFuncion '(' ')' '{' sentencias '}' .  (50)
+
+	.  reduce 50
+
+
+state 112
+	declaraciones : declaraciones . declaracion ';'  (4)
+	declaracionFuncion : tipo nombreFuncion '(' parametros ')' '{' declaraciones . sentencias '}'  (51)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	INT  shift 1
+	DOUBLE  shift 2
+	CHAR  shift 3
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	declaracion  goto 19
+	tipo  goto 56
+	identificador  goto 57
+	sentencias  goto 137
+	sentencia  goto 59
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 113
+	sentencias : sentencias . sentencia  (15)
+	declaracionFuncion : tipo nombreFuncion '(' parametros ')' '{' sentencias . '}'  (52)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'}'  shift 138
+	.  error
+
+	identificador  goto 57
+	sentencia  goto 89
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 114
+	if_sentencia : IF '(' expresion . ')' sentencia  (25)
+	if_sentencia : IF '(' expresion . ')' sentencia else  (26)
+	if_sentencias : IF '(' expresion . ')' bloque  (27)
+	if_sentencias : IF '(' expresion . ')' bloque else  (28)
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	OR  shift 99
+	AND  shift 100
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	')'  shift 139
+	.  error
+
+
+state 115
+	while : WHILE '(' expresion . ')' bloque  (37)
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	OR  shift 99
+	AND  shift 100
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	')'  shift 140
+	.  error
+
+
+state 116
+	expresiones : expresiones ',' . expresion  (56)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	.  error
+
+	identificador  goto 57
+	funcion  goto 77
+	expresion  goto 141
+
+
+state 117
+	expresion : '(' expresion ')' .  (71)
+
+	.  reduce 71
+
+
+state 118
+	declaracionFuncion : VOID nombreFuncion '(' ')' '{' declaraciones sentencias '}' .  (45)
+
+	.  reduce 45
+
+
+state 119
+	funcion : identificador '(' ')' .  (38)
+
+	.  reduce 38
+
+
+state 120
+	funcion : identificador '(' expresiones . ')'  (39)
+	expresiones : expresiones . ',' expresion  (56)
+
+	')'  shift 142
+	','  shift 116
+	.  error
+
+
+state 121
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion IGUAL expresion .  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	IGUAL  reduce 65
+	DISTINTO  reduce 65
+	MAYOR_IGUAL  reduce 65
+	MENOR_IGUAL  reduce 65
+	OR  reduce 65
+	AND  reduce 65
+	'='  reduce 65
+	']'  reduce 65
+	')'  reduce 65
+	';'  reduce 65
+	','  reduce 65
+
+
+state 122
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion DISTINTO expresion .  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	IGUAL  reduce 66
+	DISTINTO  reduce 66
+	MAYOR_IGUAL  reduce 66
+	MENOR_IGUAL  reduce 66
+	OR  reduce 66
+	AND  reduce 66
+	'='  reduce 66
+	']'  reduce 66
+	')'  reduce 66
+	';'  reduce 66
+	','  reduce 66
+
+
+state 123
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion MAYOR_IGUAL expresion .  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	IGUAL  reduce 68
+	DISTINTO  reduce 68
+	MAYOR_IGUAL  reduce 68
+	MENOR_IGUAL  reduce 68
+	OR  reduce 68
+	AND  reduce 68
+	'='  reduce 68
+	']'  reduce 68
+	')'  reduce 68
+	';'  reduce 68
+	','  reduce 68
+
+
+state 124
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion MENOR_IGUAL expresion .  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	IGUAL  reduce 67
+	DISTINTO  reduce 67
+	MAYOR_IGUAL  reduce 67
+	MENOR_IGUAL  reduce 67
+	OR  reduce 67
+	AND  reduce 67
+	'='  reduce 67
+	']'  reduce 67
+	')'  reduce 67
+	';'  reduce 67
+	','  reduce 67
+
+
+state 125
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion OR expresion .  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	OR  reduce 63
+	AND  reduce 63
+	'='  reduce 63
+	']'  reduce 63
+	')'  reduce 63
+	';'  reduce 63
+	','  reduce 63
+
+
+state 126
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion AND expresion .  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	OR  reduce 62
+	AND  reduce 62
+	'='  reduce 62
+	']'  reduce 62
+	')'  reduce 62
+	';'  reduce 62
+	','  reduce 62
+
+
+state 127
+	asignacion : expresion '=' expresion .  (33)
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	OR  shift 99
+	AND  shift 100
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	';'  reduce 33
+
+
+state 128
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion '+' expresion .  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	IGUAL  reduce 57
+	DISTINTO  reduce 57
+	MAYOR_IGUAL  reduce 57
+	MENOR_IGUAL  reduce 57
+	OR  reduce 57
+	AND  reduce 57
+	'='  reduce 57
+	'+'  reduce 57
+	'-'  reduce 57
+	']'  reduce 57
+	')'  reduce 57
+	';'  reduce 57
+	','  reduce 57
+
+
+state 129
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion '-' expresion .  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	IGUAL  reduce 58
+	DISTINTO  reduce 58
+	MAYOR_IGUAL  reduce 58
+	MENOR_IGUAL  reduce 58
+	OR  reduce 58
+	AND  reduce 58
+	'='  reduce 58
+	'+'  reduce 58
+	'-'  reduce 58
+	']'  reduce 58
+	')'  reduce 58
+	';'  reduce 58
+	','  reduce 58
+
+
+state 130
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion '*' expresion .  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	'['  shift 107
+	IGUAL  reduce 59
+	DISTINTO  reduce 59
+	MAYOR_IGUAL  reduce 59
+	MENOR_IGUAL  reduce 59
+	OR  reduce 59
+	AND  reduce 59
+	'='  reduce 59
+	'+'  reduce 59
+	'-'  reduce 59
+	'*'  reduce 59
+	'/'  reduce 59
+	'%'  reduce 59
+	']'  reduce 59
+	')'  reduce 59
+	';'  reduce 59
+	','  reduce 59
+
+
+state 131
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion '/' expresion .  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	'['  shift 107
+	IGUAL  reduce 60
+	DISTINTO  reduce 60
+	MAYOR_IGUAL  reduce 60
+	MENOR_IGUAL  reduce 60
+	OR  reduce 60
+	AND  reduce 60
+	'='  reduce 60
+	'+'  reduce 60
+	'-'  reduce 60
+	'*'  reduce 60
+	'/'  reduce 60
+	'%'  reduce 60
+	']'  reduce 60
+	')'  reduce 60
+	';'  reduce 60
+	','  reduce 60
+
+
+state 132
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion '%' expresion .  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	'['  shift 107
+	IGUAL  reduce 61
+	DISTINTO  reduce 61
+	MAYOR_IGUAL  reduce 61
+	MENOR_IGUAL  reduce 61
+	OR  reduce 61
+	AND  reduce 61
+	'='  reduce 61
+	'+'  reduce 61
+	'-'  reduce 61
+	'*'  reduce 61
+	'/'  reduce 61
+	'%'  reduce 61
+	']'  reduce 61
+	')'  reduce 61
+	';'  reduce 61
+	','  reduce 61
+
+
+state 133
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion '[' expresion . ']'  (70)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	OR  shift 99
+	AND  shift 100
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	']'  shift 143
+	.  error
+
+
+state 134
+	sentencias : sentencias . sentencia  (15)
+	declaracionFuncion : VOID nombreFuncion '(' parametros ')' '{' declaraciones sentencias . '}'  (47)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'}'  shift 144
+	.  error
+
+	identificador  goto 57
+	sentencia  goto 89
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 135
+	declaracionFuncion : VOID nombreFuncion '(' parametros ')' '{' sentencias '}' .  (48)
+
+	.  reduce 48
+
+
+state 136
+	declaracionFuncion : tipo nombreFuncion '(' ')' '{' declaraciones sentencias '}' .  (49)
+
+	.  reduce 49
+
+
+state 137
+	sentencias : sentencias . sentencia  (15)
+	declaracionFuncion : tipo nombreFuncion '(' parametros ')' '{' declaraciones sentencias . '}'  (51)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'}'  shift 145
+	.  error
+
+	identificador  goto 57
+	sentencia  goto 89
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 138
+	declaracionFuncion : tipo nombreFuncion '(' parametros ')' '{' sentencias '}' .  (52)
+
+	.  reduce 52
+
+
+state 139
+	if_sentencia : IF '(' expresion ')' . sentencia  (25)
+	if_sentencia : IF '(' expresion ')' . sentencia else  (26)
+	if_sentencias : IF '(' expresion ')' . bloque  (27)
+	if_sentencias : IF '(' expresion ')' . bloque else  (28)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'{'  shift 146
+	.  error
+
+	identificador  goto 57
+	sentencia  goto 147
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+	bloque  goto 148
+
+
+state 140
+	while : WHILE '(' expresion ')' . bloque  (37)
+
+	'{'  shift 146
+	.  error
+
+	bloque  goto 149
+
+
+state 141
+	expresiones : expresiones ',' expresion .  (56)
+	expresion : expresion . '+' expresion  (57)
+	expresion : expresion . '-' expresion  (58)
+	expresion : expresion . '*' expresion  (59)
+	expresion : expresion . '/' expresion  (60)
+	expresion : expresion . '%' expresion  (61)
+	expresion : expresion . AND expresion  (62)
+	expresion : expresion . OR expresion  (63)
+	expresion : expresion . IGUAL expresion  (65)
+	expresion : expresion . DISTINTO expresion  (66)
+	expresion : expresion . MENOR_IGUAL expresion  (67)
+	expresion : expresion . MAYOR_IGUAL expresion  (68)
+	expresion : expresion . '[' expresion ']'  (70)
+
+	IGUAL  shift 95
+	DISTINTO  shift 96
+	MAYOR_IGUAL  shift 97
+	MENOR_IGUAL  shift 98
+	OR  shift 99
+	AND  shift 100
+	'+'  shift 102
+	'-'  shift 103
+	'*'  shift 104
+	'/'  shift 105
+	'%'  shift 106
+	'['  shift 107
+	')'  reduce 56
+	';'  reduce 56
+	','  reduce 56
+
+
+state 142
+	funcion : identificador '(' expresiones ')' .  (39)
+
+	.  reduce 39
+
+
+state 143
+	expresion : expresion '[' expresion ']' .  (70)
+
+	.  reduce 70
+
+
+state 144
+	declaracionFuncion : VOID nombreFuncion '(' parametros ')' '{' declaraciones sentencias '}' .  (47)
+
+	.  reduce 47
+
+
+state 145
+	declaracionFuncion : tipo nombreFuncion '(' parametros ')' '{' declaraciones sentencias '}' .  (51)
+
+	.  reduce 51
+
+
+state 146
+	bloque : '{' . '}'  (31)
+	bloque : '{' . sentencias '}'  (32)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'}'  shift 150
+	.  error
+
+	identificador  goto 57
+	sentencias  goto 151
+	sentencia  goto 59
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 147
+	if_sentencia : IF '(' expresion ')' sentencia .  (25)
+	if_sentencia : IF '(' expresion ')' sentencia . else  (26)
+
+	ELSE  shift 152
+	CTE_ENTERA  reduce 25
+	CTE_CARACTER  reduce 25
+	CTE_DOBLE  reduce 25
+	IDENTIFICADOR  reduce 25
+	IF  reduce 25
+	WHILE  reduce 25
+	WRITE  reduce 25
+	READ  reduce 25
+	RETURN  reduce 25
+	'!'  reduce 25
+	'-'  reduce 25
+	'('  reduce 25
+	'}'  reduce 25
+
+	else  goto 153
+
+
+state 148
+	if_sentencias : IF '(' expresion ')' bloque .  (27)
+	if_sentencias : IF '(' expresion ')' bloque . else  (28)
+
+	ELSE  shift 152
+	CTE_ENTERA  reduce 27
+	CTE_CARACTER  reduce 27
+	CTE_DOBLE  reduce 27
+	IDENTIFICADOR  reduce 27
+	IF  reduce 27
+	WHILE  reduce 27
+	WRITE  reduce 27
+	READ  reduce 27
+	RETURN  reduce 27
+	'!'  reduce 27
+	'-'  reduce 27
+	'('  reduce 27
+	'}'  reduce 27
+
+	else  goto 154
+
+
+state 149
+	while : WHILE '(' expresion ')' bloque .  (37)
+
+	.  reduce 37
+
+
+state 150
+	bloque : '{' '}' .  (31)
+
+	.  reduce 31
+
+
+state 151
+	sentencias : sentencias . sentencia  (15)
+	bloque : '{' sentencias . '}'  (32)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'}'  shift 155
+	.  error
+
+	identificador  goto 57
+	sentencia  goto 89
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+
+
+state 152
+	else : ELSE . sentencia  (29)
+	else : ELSE . bloque  (30)
+
+	CTE_ENTERA  shift 44
+	CTE_CARACTER  shift 45
+	CTE_DOBLE  shift 46
+	IDENTIFICADOR  shift 12
+	IF  shift 47
+	WHILE  shift 48
+	WRITE  shift 49
+	READ  shift 50
+	RETURN  shift 51
+	'!'  shift 52
+	'-'  shift 53
+	'('  shift 54
+	'{'  shift 146
+	.  error
+
+	identificador  goto 57
+	sentencia  goto 156
+	read  goto 60
+	write  goto 61
+	asignacion  goto 62
+	return  goto 63
+	while  goto 64
+	if  goto 65
+	funcion  goto 66
+	if_sentencia  goto 67
+	if_sentencias  goto 68
+	expresion  goto 69
+	bloque  goto 157
+
+
+state 153
+	if_sentencia : IF '(' expresion ')' sentencia else .  (26)
+
+	.  reduce 26
+
+
+state 154
+	if_sentencias : IF '(' expresion ')' bloque else .  (28)
+
+	.  reduce 28
+
+
+state 155
+	bloque : '{' sentencias '}' .  (32)
+
+	.  reduce 32
+
+
+state 156
+	else : ELSE sentencia .  (29)
+
+	.  reduce 29
+
+
+state 157
+	else : ELSE bloque .  (30)
+
+	.  reduce 30
+
+
+41 terminals, 28 nonterminals
+77 grammar rules, 158 states

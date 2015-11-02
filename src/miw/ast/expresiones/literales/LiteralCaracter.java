@@ -1,12 +1,11 @@
 package miw.ast.expresiones.literales;
 
-import miw.ast.AbstractNodoAST;
-import miw.ast.expresiones.Expresion;
+import miw.ast.expresiones.AbstractExpresion;
 
 /**
  * Created by quidiello on 28/10/15.
  */
-public class LiteralCaracter extends AbstractNodoAST implements Expresion {
+public class LiteralCaracter extends AbstractExpresion {
 
     public Character valor;
 

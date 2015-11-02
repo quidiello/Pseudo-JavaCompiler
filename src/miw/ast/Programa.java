@@ -1,6 +1,8 @@
 package miw.ast;
 
+import miw.ast.definiciones.DefFuncion;
 import miw.ast.definiciones.DefVariable;
+import miw.ast.definiciones.Definicion;
 import miw.ast.sentencias.Sentencia;
 
 import java.util.List;
@@ -10,25 +12,18 @@ import java.util.List;
  */
 public class Programa extends AbstractNodoAST {
 
-    public List<DefVariable> defVariables;
-    public List<Sentencia> sentencias;
+    public List<Definicion> definiciones;
 
-    public Programa(Integer linea, Integer columna, List<DefVariable> defVariables, List<Sentencia> sentencias) {
+    public Programa(Integer linea, Integer columna, List<Definicion> definiciones) {
         super(linea, columna);
-        this.defVariables = defVariables;
-        this.sentencias = sentencias;
+        this.definiciones = definiciones;
     }
 
     public String toString() {
         String s = "";
-        for (DefVariable defVariable : defVariables) {
-            s += defVariable + "\n";
+        for (Definicion definicion : definiciones) {
+            s += definicion + "\n";
         }
-        s += "void Main() {";
-
-        for (Sentencia sentencia : sentencias) {
-            s += "\n\t" + sentencia;
-        }
-        return s + "\n}";
+        return s;
     }
 }
