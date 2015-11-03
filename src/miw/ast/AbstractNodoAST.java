@@ -3,7 +3,7 @@ package miw.ast;
 /**
  * Created by ast on 26/10/15.
  */
-public class AbstractNodoAST implements NodoAST {
+public abstract class AbstractNodoAST implements NodoAST {
 
     private Integer linea;
     private Integer columna;

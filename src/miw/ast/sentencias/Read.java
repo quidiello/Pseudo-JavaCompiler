@@ -2,6 +2,7 @@ package miw.ast.sentencias;
 
 import miw.ast.AbstractNodoAST;
 import miw.ast.expresiones.Expresion;
+import miw.visitor.Visitor;
 
 import java.util.List;
 
@@ -10,19 +11,25 @@ import java.util.List;
  */
 public class Read extends AbstractNodoAST implements Sentencia {
 
-    public List<Expresion> expresions;
+    public List<Expresion> expresiones;
 
-    public Read(Integer line, Integer column, List<Expresion> expresions) {
+    public Read(Integer line, Integer column, List<Expresion> expresiones) {
         super(line, column);
-        this.expresions = expresions;
+        this.expresiones = expresiones;
     }
 
     @Override
     public String toString() {
         String s = "read ";
-        for (Expresion expresion : expresions) {
+        for (Expresion expresion : expresiones) {
             s += expresion + ", ";
         }
         return s.substring(0, s.length()-2);
     }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
+    }
+
 }

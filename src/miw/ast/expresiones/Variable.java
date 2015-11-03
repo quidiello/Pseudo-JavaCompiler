@@ -1,6 +1,7 @@
 package miw.ast.expresiones;
 
-import miw.ast.AbstractNodoAST;
+import miw.visitor.Visitor;
+
 
 /**
  * Created by ast on 26/10/15.
@@ -20,4 +21,10 @@ public class Variable extends AbstractExpresion {
     public String toString() {
         return nombre;
     }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
+    }
+
 }

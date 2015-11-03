@@ -1,6 +1,7 @@
 package miw.ast.tipos;
 
 import miw.ast.AbstractNodoAST;
+import miw.visitor.Visitor;
 
 /**
  * Created by quidiello on 29/10/15.
@@ -19,6 +20,11 @@ public class TipoArray extends AbstractNodoAST implements Tipo {
     @Override
     public String toString() {
         return tipo.toString() + "[" + size + "]";
+    }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
 
 }

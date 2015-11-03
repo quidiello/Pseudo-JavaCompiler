@@ -2,6 +2,7 @@ package miw.ast.tipos;
 
 import miw.ast.AbstractNodoAST;
 import miw.ast.definiciones.DefVariable;
+import miw.visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,11 @@ public class TipoFuncion extends AbstractNodoAST implements Tipo {
 
     public TipoFuncion(Integer linea, Integer columna, Tipo tipoRetorno) {
         this(linea, columna, tipoRetorno, new ArrayList<DefVariable>());
+    }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
 
 }

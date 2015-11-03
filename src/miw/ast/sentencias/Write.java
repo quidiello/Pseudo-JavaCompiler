@@ -2,6 +2,7 @@ package miw.ast.sentencias;
 
 import miw.ast.AbstractNodoAST;
 import miw.ast.expresiones.Expresion;
+import miw.visitor.Visitor;
 
 import java.util.List;
 
@@ -25,4 +26,10 @@ public class Write extends AbstractNodoAST implements Sentencia {
         }
         return s.substring(0, s.length()-2);
     }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
+    }
+
 }

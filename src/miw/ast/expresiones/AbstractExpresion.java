@@ -5,7 +5,7 @@ import miw.ast.AbstractNodoAST;
 /**
  * Created by quidiello on 31/10/15.
  */
-public class AbstractExpresion extends AbstractNodoAST implements  Expresion {
+public abstract class AbstractExpresion extends AbstractNodoAST implements  Expresion {
 
     private boolean left;
 

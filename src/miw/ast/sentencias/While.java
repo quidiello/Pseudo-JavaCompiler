@@ -2,6 +2,7 @@ package miw.ast.sentencias;
 
 import miw.ast.AbstractNodoAST;
 import miw.ast.expresiones.Expresion;
+import miw.visitor.Visitor;
 
 import java.util.List;
 
@@ -28,4 +29,10 @@ public class While extends AbstractNodoAST implements Sentencia {
         s += "\n}";
         return s;
     }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
+    }
+
 }

@@ -1,6 +1,7 @@
 package miw.ast.expresiones;
 
 import miw.ast.sentencias.Sentencia;
+import miw.visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,5 +35,10 @@ public class Funcion extends AbstractExpresion implements Sentencia {
         }
         s += ")";
         return s;
+    }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
 }

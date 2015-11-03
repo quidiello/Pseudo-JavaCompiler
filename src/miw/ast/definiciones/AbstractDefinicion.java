@@ -6,7 +6,7 @@ import miw.ast.tipos.Tipo;
 /**
  * Created by quidiello on 31/10/15.
  */
-public class AbstractDefinicion extends AbstractNodoAST implements Definicion {
+public abstract class AbstractDefinicion extends AbstractNodoAST implements Definicion {
 
     private String nombre;
     private Tipo tipo;
