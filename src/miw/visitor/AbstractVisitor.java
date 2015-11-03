@@ -97,7 +97,7 @@ public abstract class AbstractVisitor implements Visitor {
     @Override
     public Object visit(OperadorUnarioNegacion operadorUnarioNegacion, Object object) {
 
-        operadorUnarioNegacion.accept(this, object);
+        operadorUnarioNegacion.expresion.accept(this, object);
 
         return null;
     }
@@ -105,7 +105,7 @@ public abstract class AbstractVisitor implements Visitor {
     @Override
     public Object visit(OperadorUnarioNegativo operadorUnarioNegativo, Object object) {
 
-        operadorUnarioNegativo.accept(this, object);
+        operadorUnarioNegativo.expresion.accept(this, object);
 
         return null;
     }
@@ -198,7 +198,7 @@ public abstract class AbstractVisitor implements Visitor {
         }
 
         for (DefVariable defVariable : defFuncion.variables) {
-            defFuncion.accept(this, object);
+            defVariable.accept(this, object);
         }
 
         return null;

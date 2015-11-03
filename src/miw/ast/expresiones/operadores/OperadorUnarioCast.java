@@ -2,6 +2,7 @@ package miw.ast.expresiones.operadores;
 
 import miw.ast.expresiones.Expresion;
 import miw.ast.tipos.Tipo;
+import miw.visitor.Visitor;
 
 /**
  * Created by ast on 26/10/15.
@@ -18,6 +19,11 @@ public class OperadorUnarioCast extends OperadorUnario {
     @Override
     public String toString() {
         return "-" + expresion;
+    }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
 
 }

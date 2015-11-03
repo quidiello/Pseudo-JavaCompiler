@@ -2,6 +2,7 @@ package miw.ast.definiciones;
 
 import miw.ast.AbstractNodoAST;
 import miw.ast.tipos.Tipo;
+import miw.visitor.Visitor;
 
 /**
  * Created by quidiello on 29/10/15.
@@ -17,5 +18,10 @@ public class DefVariable extends AbstractDefinicion {
 
     public String toString() {
         return getTipo().toString() + " " + getNombre();
+    }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
     }
 }

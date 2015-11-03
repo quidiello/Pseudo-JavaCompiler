@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import miw.ast.tipos.ManejadorErrores;
 import miw.lexico.Lexico;
+import miw.semantico.VisitorSemantico;
 import miw.sintactico.Parser;
 
 /*
@@ -31,6 +32,7 @@ public class Main {
 		
 		// Parseamos
 		parser.run();
+		parser.ast.accept(new VisitorSemantico(), null);
 
 		// Mostrar errores
 		ManejadorErrores.getInstance().getErrores().forEach(System.err::println);

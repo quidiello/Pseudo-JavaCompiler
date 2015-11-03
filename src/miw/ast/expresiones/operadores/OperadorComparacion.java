@@ -1,6 +1,7 @@
 package miw.ast.expresiones.operadores;
 
 import miw.ast.expresiones.Expresion;
+import miw.visitor.Visitor;
 
 /**
  * Created by ast on 26/10/15.
@@ -15,4 +16,10 @@ public class OperadorComparacion extends OperadorBinario {
     public String toString() {
         return "(" + leftValue + " " + operador + " " + rightValue + ")";
     }
+
+    @Override
+    public void accept(Visitor visitor, Object object) {
+        visitor.visit(this, object);
+    }
+
 }

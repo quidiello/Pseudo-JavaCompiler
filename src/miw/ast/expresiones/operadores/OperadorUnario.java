@@ -7,7 +7,7 @@ import miw.ast.expresiones.Expresion;
 /**
  * Created by quidiello on 28/10/15.
  */
-public class OperadorUnario extends AbstractExpresion {
+public abstract class OperadorUnario extends AbstractExpresion {
 
     public Expresion expresion;
 

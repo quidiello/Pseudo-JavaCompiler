@@ -1,18 +1,14 @@
 package miw.ast;
 
-import miw.ast.definiciones.DefFuncion;
-import miw.ast.definiciones.DefVariable;
 import miw.ast.definiciones.Definicion;
-import miw.ast.sentencias.Sentencia;
 import miw.visitor.Visitor;
-import miw.visitor.acceptVisitor;
 
 import java.util.List;
 
 /**
  * Created by quidiello on 29/10/15.
  */
-public class Programa extends AbstractNodoAST implements acceptVisitor {
+public class Programa extends AbstractNodoAST {
 
     public List<Definicion> definiciones;
 

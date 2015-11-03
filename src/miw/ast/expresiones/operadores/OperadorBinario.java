@@ -7,7 +7,7 @@ import miw.ast.expresiones.Expresion;
 /**
  * Created by quidiello on 28/10/15.
  */
-public class OperadorBinario extends AbstractExpresion {
+public abstract class OperadorBinario extends AbstractExpresion {
 
     public Expresion leftValue;
     public Expresion rightValue;
