@@ -16,7 +16,7 @@ public class VisitorSemantico extends AbstractVisitor {
         super.visit(asignacion, object);
 
         if (!asignacion.leftValue.isLeft()) {
-            new TipoError(asignacion.leftValue.getLinea(), asignacion.leftValue.getColumna(), "Expresión no asignable al lado izquierdo.");
+            new TipoError(asignacion.leftValue.getLinea(), asignacion.leftValue.getColumna(), "Expresión (" + asignacion.leftValue + ") no asignable al lado izquierdo.");
         }
 
         return null;
@@ -28,7 +28,7 @@ public class VisitorSemantico extends AbstractVisitor {
 
         for (Expresion expresion : sentenciaRead.expresiones) {
             if (!expresion.isLeft()) {
-                new TipoError(expresion.getLinea(), expresion.getColumna(), "Expresión no asignable al lado izquierdo.");
+                new TipoError(expresion.getLinea(), expresion.getColumna(), "Expresión(" + expresion + ") no asignable al lado izquierdo.");
             }
         }
 

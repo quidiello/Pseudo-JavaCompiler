@@ -1,5 +1,5 @@
 // Programa erróneo
-
+int k;
 void main() {
 	int i;
 	int j;

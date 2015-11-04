@@ -1,5 +1,7 @@
 package miw.ast.expresiones;
 
+import miw.ast.definiciones.DefVariable;
+import miw.ast.definiciones.Definicion;
 import miw.visitor.Visitor;
 
 
@@ -9,6 +11,7 @@ import miw.visitor.Visitor;
 public class Variable extends AbstractExpresion {
 
     public String nombre;
+    public DefVariable defVariable;
 
     public Variable(Integer line, Integer column, String nombre) {
         super(line, column);

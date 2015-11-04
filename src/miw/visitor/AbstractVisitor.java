@@ -193,12 +193,12 @@ public abstract class AbstractVisitor implements Visitor {
     @Override
     public Object visit(DefFuncion defFuncion, Object object) {
 
-        for (Sentencia sentencia : defFuncion.sentencias) {
-            sentencia.accept(this, object);
-        }
-
         for (DefVariable defVariable : defFuncion.variables) {
             defVariable.accept(this, object);
+        }
+
+        for (Sentencia sentencia : defFuncion.sentencias) {
+            sentencia.accept(this, object);
         }
 
         return null;

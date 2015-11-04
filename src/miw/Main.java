@@ -7,6 +7,7 @@ import miw.ast.tipos.ManejadorErrores;
 import miw.lexico.Lexico;
 import miw.semantico.VisitorSemantico;
 import miw.sintactico.Parser;
+import miw.visitor.VisitorIdentificacion;
 
 /*
  * Prueba del analizador sintáctico.
@@ -33,6 +34,7 @@ public class Main {
 		// Parseamos
 		parser.run();
 		parser.ast.accept(new VisitorSemantico(), null);
+		parser.ast.accept(new VisitorIdentificacion(), null);
 
 		// Mostrar errores
 		ManejadorErrores.getInstance().getErrores().forEach(System.err::println);
