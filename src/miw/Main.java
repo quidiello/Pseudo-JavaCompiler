@@ -33,8 +33,11 @@ public class Main {
 		
 		// Parseamos
 		parser.run();
-		parser.ast.accept(new VisitorSemantico(), null);
 		parser.ast.accept(new VisitorIdentificacion(), null);
+
+		if (! ManejadorErrores.getInstance().existeErrores()) {
+			parser.ast.accept(new VisitorSemantico(), null);
+		}
 
 		// Mostrar errores
 		ManejadorErrores.getInstance().getErrores().forEach(System.err::println);

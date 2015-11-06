@@ -6,7 +6,7 @@ import miw.visitor.Visitor;
 /**
  * Created by quidiello on 29/10/15.
  */
-public class TipoVoid extends AbstractNodoAST implements Tipo {
+public class TipoVoid extends AbstractTipo {
 
     private static TipoVoid INSTANCE;
 
@@ -29,6 +29,16 @@ public class TipoVoid extends AbstractNodoAST implements Tipo {
     @Override
     public void accept(Visitor visitor, Object object) {
         visitor.visit(this, object);
+    }
+
+    @Override
+    public String getNombre() {
+        return "void";
+    }
+
+    @Override
+    public boolean esBasico() {
+        return true;
     }
 
 }

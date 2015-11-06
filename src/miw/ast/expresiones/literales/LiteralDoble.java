@@ -1,6 +1,7 @@
 package miw.ast.expresiones.literales;
 
 import miw.ast.expresiones.AbstractExpresion;
+import miw.ast.tipos.TipoDoble;
 import miw.visitor.Visitor;
 
 /**
@@ -10,9 +11,10 @@ public class LiteralDoble extends AbstractExpresion {
 
     public Double valor;
 
-    public LiteralDoble(Integer line, Integer column, Double valor) {
-        super(line, column);
+    public LiteralDoble(Integer linea, Integer columna, Double valor) {
+        super(linea, columna);
         this.valor = valor;
+        this.setTipo(TipoDoble.getInstance(linea, columna));
     }
 
     @Override

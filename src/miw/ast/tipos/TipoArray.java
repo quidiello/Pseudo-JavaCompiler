@@ -1,12 +1,15 @@
 package miw.ast.tipos;
 
 import miw.ast.AbstractNodoAST;
+import miw.ast.expresiones.Expresion;
 import miw.visitor.Visitor;
+
+import java.util.List;
 
 /**
  * Created by quidiello on 29/10/15.
  */
-public class TipoArray extends AbstractNodoAST implements Tipo {
+public class TipoArray extends AbstractTipo {
 
     public Tipo tipo;
     public Integer size;
@@ -25,6 +28,22 @@ public class TipoArray extends AbstractNodoAST implements Tipo {
     @Override
     public void accept(Visitor visitor, Object object) {
         visitor.visit(this, object);
+    }
+
+    @Override
+    public String getNombre() {
+        return "array";
+    }
+
+    @Override
+    public Tipo corchetes (Tipo tipo) {
+        if (tipo instanceof TipoError) {
+            return tipo;
+        }
+        if (tipo.esPromocionable(TipoEntero.getInstance(this.getLinea(), this.getColumna()))) {
+            return this.tipo;
+        }
+        return null;
     }
 
 }

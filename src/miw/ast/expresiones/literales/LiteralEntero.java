@@ -1,6 +1,7 @@
 package miw.ast.expresiones.literales;
 
 import miw.ast.expresiones.AbstractExpresion;
+import miw.ast.tipos.TipoEntero;
 import miw.visitor.Visitor;
 
 /**
@@ -10,9 +11,10 @@ public class LiteralEntero extends AbstractExpresion {
 
     public Integer valor;
 
-    public LiteralEntero(Integer line, Integer column, Integer valor) {
-        super(line, column);
+    public LiteralEntero(Integer linea, Integer columna, Integer valor) {
+        super(linea, columna);
         this.valor = valor;
+        this.setTipo(TipoEntero.getInstance(linea, columna));
     }
 
     @Override

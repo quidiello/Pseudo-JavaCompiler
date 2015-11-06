@@ -6,7 +6,7 @@ import miw.visitor.Visitor;
 /**
  * Created by quidiello on 27/10/15.
  */
-public class TipoError extends AbstractNodoAST implements Tipo{
+public class TipoError extends AbstractTipo {
 
     public String mensaje;
 
@@ -26,6 +26,11 @@ public class TipoError extends AbstractNodoAST implements Tipo{
     @Override
     public void accept(Visitor visitor, Object object) {
         visitor.visit(this, object);
+    }
+
+    @Override
+    public String getNombre() {
+        return "error";
     }
 
 }

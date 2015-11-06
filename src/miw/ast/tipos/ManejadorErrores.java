@@ -31,4 +31,9 @@ public class ManejadorErrores {
     public  List<TipoError> getErrores() {
         return errores;
     }
+
+    public void deleteErrores() {
+        this.errores.clear();
+    }
+
 }

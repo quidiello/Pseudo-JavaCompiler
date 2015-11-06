@@ -6,6 +6,7 @@ import miw.ast.definiciones.Definicion;
 import miw.ast.expresiones.Variable;
 import miw.ast.sentencias.Sentencia;
 import miw.ast.tipos.TipoError;
+import miw.ast.tipos.TipoFuncion;
 import miw.semantico.TablaSimbolos;
 
 /**
@@ -26,8 +27,12 @@ public class VisitorIdentificacion extends AbstractVisitor {
         }
 
         tablaSimbolos.set();
-        for (DefVariable defVariable : defFuncion.variables) {
-            defVariable.accept(this, object);
+        TipoFuncion tipoFuncion = (TipoFuncion) defFuncion.getTipo();
+        for (Definicion definicion : tipoFuncion.parametros) {
+            definicion.accept(this, object);
+        }
+        for (Definicion definicion : defFuncion.variables) {
+            definicion.accept(this, object);
         }
 
         for (Sentencia sentencia : defFuncion.sentencias) {
@@ -51,8 +56,9 @@ public class VisitorIdentificacion extends AbstractVisitor {
     @Override
     public Object visit(Variable variable, Object object) {
         Definicion definicion = tablaSimbolos.getDefinicion(variable.nombre);
-        if (definicion != null && definicion instanceof DefVariable) {
-            variable.defVariable = (DefVariable) definicion;
+        if (definicion != null) {
+            variable.definicion = definicion;
+            variable.setTipo(variable.definicion.getTipo());
         }
         else {
             new TipoError(variable.getLinea(), variable.getColumna(), "No se pudo resolver el identificador '" + variable.nombre + "'.");
