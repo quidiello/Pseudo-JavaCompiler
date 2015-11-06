@@ -1,5 +1,6 @@
 package miw.visitor;
 
+import miw.ast.Programa;
 import miw.ast.definiciones.DefFuncion;
 import miw.ast.definiciones.DefVariable;
 import miw.ast.definiciones.Definicion;
@@ -18,6 +19,24 @@ public class VisitorIdentificacion extends AbstractVisitor {
 
     public VisitorIdentificacion() {
         tablaSimbolos = new TablaSimbolos();
+    }
+
+    @Override
+    public Object visit(Programa programa, Object object) {
+
+        boolean main = false;
+        for (Definicion definicion : programa.definiciones) {
+            if (definicion.getNombre().equals("main")) {
+                main = true;
+            }
+            definicion.accept(this, object);
+        }
+
+        if (! main) {
+            new TipoError(programa.getLinea(), programa.getColumna(), "No se ha encontrado la función main");
+        }
+
+        return null;
     }
 
     @Override

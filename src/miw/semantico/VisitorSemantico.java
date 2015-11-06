@@ -38,7 +38,7 @@ public class VisitorSemantico extends AbstractVisitor {
 
         for (Expresion expresion : sentenciaRead.expresiones) {
             if (!expresion.isLeft()) {
-                new TipoError(expresion.getLinea(), expresion.getColumna(), "Expresión(" + expresion + ") no asignable al lado izquierdo.");
+                new TipoError(expresion.getLinea(), expresion.getColumna(), "Expresión (" + expresion + ") no asignable al lado izquierdo.");
             }
         }
 
@@ -70,7 +70,7 @@ public class VisitorSemantico extends AbstractVisitor {
 
         Tipo operacion = op1.aritmetica(op2);
         if (operacion == null) {
-            operacion = new TipoError(operadorAritmetico.getLinea(), operadorAritmetico.getColumna(), "Tipos incompatibles para el operador aritmético. Se espera un " + op1.getNombre() + " y ha llegado un " + op2.getNombre());
+            operacion = new TipoError(operadorAritmetico.getLinea(), operadorAritmetico.getColumna(), "Tipos incompatibles para el operador aritmético: " + op1.getNombre() + " y " + op2.getNombre());
         }
         operadorAritmetico.setTipo(operacion);
 
@@ -86,7 +86,7 @@ public class VisitorSemantico extends AbstractVisitor {
 
         Tipo operacion = op1.comparacion(op2);
         if (operacion == null) {
-            operacion = new TipoError(operadorComparacion.getLinea(), operadorComparacion.getColumna(), "Tipos incompatibles para el operador comparación. Se espera un " + op1.getNombre() + " y ha llegado un " + op2.getNombre());
+            operacion = new TipoError(operadorComparacion.getLinea(), operadorComparacion.getColumna(), "Tipos incompatibles para el operador comparación: " + op1.getNombre() + " y " + op2.getNombre());
         }
         operadorComparacion.setTipo(operacion);
 
@@ -103,7 +103,7 @@ public class VisitorSemantico extends AbstractVisitor {
 
         Tipo operacion = op1.logica(op2);
         if (operacion == null) {
-            operacion = new TipoError(operadorLogico.getLinea(), operadorLogico.getColumna(), "Tipos incompatibles para el operador lógico. Se espera un " + op1.getNombre() + " y ha llegado un " + op2.getNombre());
+            operacion = new TipoError(operadorLogico.getLinea(), operadorLogico.getColumna(), "Tipos incompatibles para el operador lógico: " + op1.getNombre() + " y  " + op2.getNombre());
         }
         operadorLogico.setTipo(operacion);
 

@@ -1,13 +1,14 @@
 // Programa erróneo
 
 void main() {
-  	int entero;
-  	char caracter;
-  	read entero; 
-  	entero = '2' + 4;  //No se pueden sumar un char y un int
-  	entero = -4; 
-  	caracter = 'a' > 'b';	//No se puede asignar un int a un char
-  	caracter = -caracter; //No se puede hacer manos unario a char
-  	entero = 'a' || 'b'; 
-  	caracter = 4 || 0; //No se puede asignar un int a un char
+    int entero;
+    char caracter;
+    int [1] array;
+    read entero;
+    entero = array + 4; //No se pueden sumar un array y un int
+    entero = -4;
+    caracter = 'a' > 'b'; //No se puede asignar un int a un char
+    caracter = -array; //No se puede hacer menos unario a un array
+    entero = 'a' || 'b';
+    caracter = 4 || 0; //No se puede asignar un int a un char
 }

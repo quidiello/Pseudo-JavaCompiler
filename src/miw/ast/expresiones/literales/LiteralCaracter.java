@@ -1,6 +1,7 @@
 package miw.ast.expresiones.literales;
 
 import miw.ast.expresiones.AbstractExpresion;
+import miw.ast.tipos.TipoCaracter;
 import miw.ast.tipos.TipoEntero;
 import miw.visitor.Visitor;
 
@@ -14,7 +15,7 @@ public class LiteralCaracter extends AbstractExpresion {
     public LiteralCaracter(Integer linea, Integer columna, Character valor) {
         super(linea, columna);
         this.valor = valor;
-        this.setTipo(TipoEntero.getInstance(linea, columna));
+        this.setTipo(TipoCaracter.getInstance(linea, columna));
     }
 
     @Override

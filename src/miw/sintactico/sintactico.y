@@ -21,7 +21,7 @@ import java.util.*;
 %nonassoc MENOS_QUE_ELSE
 %nonassoc ELSE
 %left AND OR '!'
-%left IGUAL MAYOR_IGUAL MENOR_IGUAL DISTINTO
+%left IGUAL MAYOR_IGUAL MENOR_IGUAL DISTINTO '<' '>'
 %left '+' '-'
 %left '*' '/' '%'
 %right MENOS_UNARIO
@@ -195,6 +195,8 @@ expresion:  expresion '+' expresion                 { $$ = new OperadorAritmetic
             | expresion DISTINTO expresion          { $$ = new OperadorLogico(lexico.getLinea(), lexico.getColumna(), (Expresion)$1, (Expresion)$3, "!="); }
             | expresion MENOR_IGUAL expresion       { $$ = new OperadorLogico(lexico.getLinea(), lexico.getColumna(), (Expresion)$1, (Expresion)$3, "<="); }
             | expresion MAYOR_IGUAL expresion       { $$ = new OperadorLogico(lexico.getLinea(), lexico.getColumna(), (Expresion)$1, (Expresion)$3, ">="); }
+            | expresion '<' expresion               { $$ = new OperadorLogico(lexico.getLinea(), lexico.getColumna(), (Expresion)$1, (Expresion)$3, "<"); }
+            | expresion '>' expresion               { $$ = new OperadorLogico(lexico.getLinea(), lexico.getColumna(), (Expresion)$1, (Expresion)$3, ">"); }
             | '-' expresion %PREC MENOS_UNARIO      { $$ = new OperadorUnarioNegativo(lexico.getLinea(), lexico.getColumna(), (Expresion)$2); }
             | '(' tipo ')' expresion                { $$ = new OperadorUnarioCast(lexico.getLinea(), lexico.getColumna(), (Expresion)$4, (Tipo)$2); }
             | expresion '[' expresion ']'           { $$ = new OperadorAccesoArray(lexico.getLinea(), lexico.getColumna(), (Expresion)$1, (Expresion)$3); }
