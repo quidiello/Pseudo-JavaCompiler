@@ -1,29 +1,44 @@
-/* 
-	Ejemplo Definición del Lenguaje 2
-*/
-int i,j; // Variables Globales
+double[10] v;
 
-int f(int a) { // Función f
-	return a;
-}
-
-void main() {// Función Principal
-	int i,b; // Variables locales
-	double r;
-	char c;	
-	int[10] v; // Array
-
-	i = 1;	
-	r = 12.3 - 34.12E-3 * 2. + 3e3;
-	c = '\126';
-
-	b = v[2];
-	if (1 && 2 || !0) {
-		i = b;
-	}
+// * Programa principal
+void main() {
+	double valor;
+	int i,j;
+	int[4][5] w;
+	int dia;
+	int mes, anio;
+	
+	
+	read dia; // * lvalue
+	anio=(int)'a'; 
+	mes=dia*anio%12+1;
+	write dia, '\n', mes, '\n', (double)(anio), '\n';
+	
+	read valor;
 		
+	i=0;	
 	while (i<10) {
-	    i=i+1;
-	    j=i;
-  	}      
+		v[i]=valor; // * lvalue
+		write i,':',v[i], ' ';
+		if (i%2)
+			write 'i','m','p','a','r','\n';
+		else 
+			write 'p','a','r','\n';
+		i=i+1;
+	}
+	write '\n';
+
+	i=0;
+	while (i<4) {
+		j=0;
+		while (j<5) {
+			w[i][j]=i+j;
+			write w[i][j], ' ';
+			j=j+1;
+		}
+		write '\n';
+		i=i+1;
+	}
+
 }
+	

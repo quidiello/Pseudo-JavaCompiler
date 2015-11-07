@@ -11,6 +11,6 @@ public interface NodoAST {
 
     Integer getColumna();
 
-    void accept(Visitor visitor, Object object);
+    Object accept(Visitor visitor, Object object);
 
 }

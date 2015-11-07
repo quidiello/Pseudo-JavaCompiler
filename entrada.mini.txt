@@ -1,21 +1,19 @@
-2
-3 'a' '\n'
-2 void char
-if while for
-== <= >= || &&
-+
-0.9
-1.2
-1.
-.2
+/**
+ * Programa de prueba. 
+ */
+ int x;
+ char a;
+ double c;
+ double k;
+void main(int h, double j, char ñ) {
+ int a,b;
+ read b;
+ a = b+3;
+ write a;
+}
 
-2e3
-2.E-4
-5.34e876
-22.24
-2,4
-a
-A2
-aña
-Añ2ñéso
-2asdjk2
+int f() {
+char a;
+double b;
+return 5;
+}

@@ -21,7 +21,24 @@ public class DefVariable extends AbstractDefinicion {
     }
 
     @Override
-    public void accept(Visitor visitor, Object object) {
-        visitor.visit(this, object);
+    public Object accept(Visitor visitor, Object object) {
+        return visitor.visit(this, object);
     }
+
+    public Integer getAmbito() {
+        return ambito;
+    }
+
+    public void setAmbito(Integer ambito) {
+        this.ambito = ambito;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
 }

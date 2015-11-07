@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import miw.ast.tipos.ManejadorErrores;
+import miw.generacion.VisitorOffset;
 import miw.lexico.Lexico;
 import miw.semantico.VisitorSemantico;
 import miw.sintactico.Parser;
@@ -34,12 +35,16 @@ public class Main {
 		// Parseamos
 		parser.run();
 
-		if (! ManejadorErrores.getInstance().existeErrores()) {
+		if (! ManejadorErrores.getInstance().existeErrores() && parser.ast != null) {
 			parser.ast.accept(new VisitorIdentificacion(), null);
 		}
 
-		if (! ManejadorErrores.getInstance().existeErrores()) {
+		if (! ManejadorErrores.getInstance().existeErrores() && parser.ast != null) {
 			parser.ast.accept(new VisitorSemantico(), null);
+		}
+
+		if (! ManejadorErrores.getInstance().existeErrores() && parser.ast != null) {
+			parser.ast.accept(new VisitorOffset(), null);
 		}
 
 		// Mostrar errores

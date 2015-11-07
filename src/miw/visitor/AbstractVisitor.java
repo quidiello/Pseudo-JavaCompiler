@@ -193,6 +193,8 @@ public abstract class AbstractVisitor implements Visitor {
     @Override
     public Object visit(DefFuncion defFuncion, Object object) {
 
+        defFuncion.getTipo().accept(this, object);
+
         for (DefVariable defVariable : defFuncion.variables) {
             defVariable.accept(this, object);
         }

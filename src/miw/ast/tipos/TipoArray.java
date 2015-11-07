@@ -1,5 +1,6 @@
 package miw.ast.tipos;
 
+import com.sun.corba.se.spi.ior.ObjectKey;
 import miw.ast.AbstractNodoAST;
 import miw.ast.expresiones.Expresion;
 import miw.visitor.Visitor;
@@ -26,8 +27,8 @@ public class TipoArray extends AbstractTipo {
     }
 
     @Override
-    public void accept(Visitor visitor, Object object) {
-        visitor.visit(this, object);
+    public Object accept(Visitor visitor, Object object) {
+        return visitor.visit(this, object);
     }
 
     @Override

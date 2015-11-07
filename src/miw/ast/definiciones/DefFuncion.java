@@ -16,10 +16,13 @@ public class DefFuncion extends AbstractDefinicion implements Sentencia {
     public List<Sentencia> sentencias;
     public List<DefVariable> variables;
 
+    private Integer offsetVariablesLocales;
+
     public DefFuncion(Integer linea, Integer columna, String nombre, Tipo tipo, List<Sentencia> sentencias, List<DefVariable> variables) {
         super(linea, columna, nombre, tipo);
         this.sentencias = sentencias;
         this.variables = variables;
+        this.offsetVariablesLocales = 0;
     }
 
     public DefFuncion(Integer linea, Integer columna, String nombre, Tipo tipo, List<Sentencia> sentencias) {
@@ -47,9 +50,17 @@ public class DefFuncion extends AbstractDefinicion implements Sentencia {
         return s;
     }
 
+    public Integer getOffsetVariablesLocales() {
+        return offsetVariablesLocales;
+    }
+
+    public void setOffsetVariablesLocales(Integer offsetVariablesLocales) {
+        this.offsetVariablesLocales = offsetVariablesLocales;
+    }
+
     @Override
-    public void accept(Visitor visitor, Object object) {
-        visitor.visit(this, object);
+    public Object accept(Visitor visitor, Object object) {
+        return visitor.visit(this, object);
     }
 
 }

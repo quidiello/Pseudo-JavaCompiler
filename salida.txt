@@ -1,0 +1,349 @@
+
+#source	"entrada.txt"
+
+	' * [10,real] v (offset 0)
+
+' Invocación al main (siempre igual)
+call main
+halt
+
+
+#line	43
+
+ main:
+	' * Parametros
+	' * Variables Locales
+	' * real valor (offset -4)
+	' * entero i (offset -6)
+	' * entero j (offset -8)
+	' * [4,[5,entero]] w (offset -48)
+	' * entero dia (offset -50)
+	' * entero mes (offset -52)
+	' * entero anio (offset -54)
+	enter	54
+
+#line	12
+	' * Lectura
+	push	bp
+	pushi	-50
+	addi
+	ini
+	storei
+
+#line	13
+	push	bp
+	pushi	-54
+	addi
+	pushb	97
+	b2i
+	storei
+
+#line	14
+	push	bp
+	pushi	-52
+	addi
+	push	bp
+	pushi	-50
+	addi
+	loadi
+	push	bp
+	pushi	-54
+	addi
+	loadi
+	muli
+	pushi	12
+	modi
+	pushi	1
+	addi
+	storei
+
+#line	15
+	' * Escritura
+	push	bp
+	pushi	-50
+	addi
+	loadi
+	outi
+	' * Escritura
+	pushb	10
+	outb
+	' * Escritura
+	push	bp
+	pushi	-52
+	addi
+	loadi
+	outi
+	' * Escritura
+	pushb	10
+	outb
+	' * Escritura
+	push	bp
+	pushi	-54
+	addi
+	loadi
+	i2f
+	outf
+	' * Escritura
+	pushb	10
+	outb
+
+#line	17
+	' * Lectura
+	push	bp
+	pushi	-4
+	addi
+	inf
+	storef
+
+#line	19
+	push	bp
+	pushi	-6
+	addi
+	pushi	0
+	storei
+	' * While
+
+#line	20
+ etiqueta0:
+	push	bp
+	pushi	-6
+	addi
+	loadi
+	pushi	10
+	lti
+	jz	etiqueta1
+	' * Cuerpo del while
+
+#line	21
+	pusha	0
+	push	bp
+	pushi	-6
+	addi
+	loadi
+	pushi	4
+	muli
+	addi
+	push	bp
+	pushi	-4
+	addi
+	loadf
+	storef
+
+#line	22
+	' * Escritura
+	push	bp
+	pushi	-6
+	addi
+	loadi
+	outi
+	' * Escritura
+	pushb	58
+	outb
+	' * Escritura
+	pusha	0
+	push	bp
+	pushi	-6
+	addi
+	loadi
+	pushi	4
+	muli
+	addi
+	loadf
+	outf
+	' * Escritura
+	pushb	32
+	outb
+	' * If
+
+#line	23
+	push	bp
+	pushi	-6
+	addi
+	loadi
+	pushi	2
+	modi
+	jz	etiqueta2
+	' * Cuerpo del if
+
+#line	24
+	' * Escritura
+	pushb	105
+	outb
+	' * Escritura
+	pushb	109
+	outb
+	' * Escritura
+	pushb	112
+	outb
+	' * Escritura
+	pushb	97
+	outb
+	' * Escritura
+	pushb	114
+	outb
+	' * Escritura
+	pushb	10
+	outb
+	jmp	etiqueta3
+ etiqueta2:
+	' * Cuerpo del else
+
+#line	26
+	' * Escritura
+	pushb	112
+	outb
+	' * Escritura
+	pushb	97
+	outb
+	' * Escritura
+	pushb	114
+	outb
+	' * Escritura
+	pushb	10
+	outb
+ etiqueta3:
+
+#line	27
+	push	bp
+	pushi	-6
+	addi
+	push	bp
+	pushi	-6
+	addi
+	loadi
+	pushi	1
+	addi
+	storei
+	jmp	etiqueta0
+ etiqueta1:
+
+#line	29
+	' * Escritura
+	pushb	10
+	outb
+
+#line	31
+	push	bp
+	pushi	-6
+	addi
+	pushi	0
+	storei
+	' * While
+
+#line	32
+ etiqueta4:
+	push	bp
+	pushi	-6
+	addi
+	loadi
+	pushi	4
+	lti
+	jz	etiqueta5
+	' * Cuerpo del while
+
+#line	33
+	push	bp
+	pushi	-8
+	addi
+	pushi	0
+	storei
+	' * While
+
+#line	34
+ etiqueta6:
+	push	bp
+	pushi	-8
+	addi
+	loadi
+	pushi	5
+	lti
+	jz	etiqueta7
+	' * Cuerpo del while
+
+#line	35
+	push	bp
+	pushi	-48
+	addi
+	push	bp
+	pushi	-6
+	addi
+	loadi
+	pushi	10
+	muli
+	addi
+	push	bp
+	pushi	-8
+	addi
+	loadi
+	pushi	2
+	muli
+	addi
+	push	bp
+	pushi	-6
+	addi
+	loadi
+	push	bp
+	pushi	-8
+	addi
+	loadi
+	addi
+	storei
+
+#line	36
+	' * Escritura
+	push	bp
+	pushi	-48
+	addi
+	push	bp
+	pushi	-6
+	addi
+	loadi
+	pushi	10
+	muli
+	addi
+	push	bp
+	pushi	-8
+	addi
+	loadi
+	pushi	2
+	muli
+	addi
+	loadi
+	outi
+	' * Escritura
+	pushb	32
+	outb
+
+#line	37
+	push	bp
+	pushi	-8
+	addi
+	push	bp
+	pushi	-8
+	addi
+	loadi
+	pushi	1
+	addi
+	storei
+	jmp	etiqueta6
+ etiqueta7:
+
+#line	39
+	' * Escritura
+	pushb	10
+	outb
+
+#line	40
+	push	bp
+	pushi	-6
+	addi
+	push	bp
+	pushi	-6
+	addi
+	loadi
+	pushi	1
+	addi
+	storei
+	jmp	etiqueta4
+ etiqueta5:
+	ret	0, 54, 0

@@ -16,9 +16,11 @@ import miw.semantico.TablaSimbolos;
 public class VisitorIdentificacion extends AbstractVisitor {
 
     private TablaSimbolos tablaSimbolos;
+    private Integer ambito;
 
     public VisitorIdentificacion() {
         tablaSimbolos = new TablaSimbolos();
+        ambito = 0;
     }
 
     @Override
@@ -46,6 +48,7 @@ public class VisitorIdentificacion extends AbstractVisitor {
         }
 
         tablaSimbolos.set();
+        ambito++;
         TipoFuncion tipoFuncion = (TipoFuncion) defFuncion.getTipo();
         for (Definicion definicion : tipoFuncion.parametros) {
             definicion.accept(this, object);
@@ -57,6 +60,7 @@ public class VisitorIdentificacion extends AbstractVisitor {
         for (Sentencia sentencia : defFuncion.sentencias) {
             sentencia.accept(this, object);
         }
+        ambito--;
         tablaSimbolos.reset();
 
         return null;
@@ -68,7 +72,7 @@ public class VisitorIdentificacion extends AbstractVisitor {
             new TipoError(defVariable.getLinea(), defVariable.getColumna(), "Variable '" + defVariable.getNombre() +
                     "' ya está definida en este ámbito.");
         }
-
+        defVariable.setAmbito(ambito);
         return super.visit(defVariable, object);
     }
 

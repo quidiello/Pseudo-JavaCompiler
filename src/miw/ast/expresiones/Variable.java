@@ -27,8 +27,8 @@ public class Variable extends AbstractExpresion {
     }
 
     @Override
-    public void accept(Visitor visitor, Object object) {
-        visitor.visit(this, object);
+    public Object accept(Visitor visitor, Object object) {
+        return visitor.visit(this, object);
     }
 
 }

@@ -30,7 +30,7 @@ import java.util.*;
 
 %%
 
-programa:           definiciones                    { ast = new Programa(lexico.getLinea(), lexico.getColumna(), (List<Definicion>)$1); System.err.println(ast); }
+programa:           definiciones                    { ast = new Programa(lexico.getLinea(), lexico.getColumna(), (List<Definicion>)$1); }
                     ;
 
 definiciones:       declaracionesFuncion                        { $$ = $1; }
