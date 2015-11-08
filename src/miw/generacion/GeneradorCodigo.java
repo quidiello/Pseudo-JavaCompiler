@@ -274,4 +274,15 @@ public class GeneradorCodigo {
         }
     }
 
+    public void main() {
+        printWriter.println("call main");
+        halt();
+        printWriter.flush();
+    }
+
+    public void pop(Tipo tipo) {
+        printWriter.println("\tpop" + tipo.getSufijo());
+        printWriter.flush();
+    }
+
 }

@@ -130,4 +130,11 @@ public class TipoEntero extends AbstractTipo {
         return null;
     }
 
+    @Override
+    public Tipo mayor(Tipo tipo) {
+        if (tipo instanceof TipoDoble) {
+            return tipo;
+        }
+        return this;
+    }
 }

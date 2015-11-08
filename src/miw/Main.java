@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import miw.ast.tipos.ManejadorErrores;
+import miw.generacion.VisitorGCEjecutar;
 import miw.generacion.VisitorOffset;
 import miw.lexico.Lexico;
 import miw.semantico.VisitorSemantico;
@@ -45,6 +46,10 @@ public class Main {
 
 		if (! ManejadorErrores.getInstance().existeErrores() && parser.ast != null) {
 			parser.ast.accept(new VisitorOffset(), null);
+		}
+
+		if (! ManejadorErrores.getInstance().existeErrores() && parser.ast != null) {
+			parser.ast.accept(new VisitorGCEjecutar(args[0], args[0] + ".salida"), null);
 		}
 
 		// Mostrar errores

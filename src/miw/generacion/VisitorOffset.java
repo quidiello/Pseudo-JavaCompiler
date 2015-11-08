@@ -48,7 +48,7 @@ public class VisitorOffset extends AbstractVisitor {
             defVariable.accept(this, object);
         }
 
-        defFuncion.setOffsetVariablesLocales(offsetLocal);
+        defFuncion.setOffsetVariablesLocales(-offsetLocal);
 
         return null;
     }

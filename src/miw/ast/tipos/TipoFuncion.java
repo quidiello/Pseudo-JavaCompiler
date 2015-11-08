@@ -15,11 +15,13 @@ public class TipoFuncion extends AbstractTipo {
 
     public List<DefVariable> parametros;
     public Tipo tipoRetorno;
+    public Integer offset;
 
     public TipoFuncion(Integer linea, Integer columna, Tipo tipoRetorno, List<DefVariable> parametros) {
         super(linea, columna);
         this.parametros = parametros;
         this.tipoRetorno = tipoRetorno;
+        this.offset = 0;
     }
 
     public TipoFuncion(Integer linea, Integer columna, Tipo tipoRetorno) {

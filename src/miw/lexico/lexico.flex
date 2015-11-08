@@ -123,9 +123,9 @@ Basura = {ComentarioLinea} | {ComentarioMultiple} | {FinLinea} | [ \t\f]
 // * Constante Carácter
 '.'					{ parser.setYylval(new Character(yycharat(1)));
 					  return Parser.CTE_CARACTER; }
-'\\t'				{ parser.setYylval("\\t");
+'\\t'				{ parser.setYylval('\t');
 					  return Parser.CTE_CARACTER; }
-'\\n'				{ parser.setYylval("\\n");
+'\\n'				{ parser.setYylval('\n');
 					  return Parser.CTE_CARACTER; }
 '\\[0-9]+'				{ parser.setYylval((char)Integer.parseInt(yytext().replace("\\","").replace("\'","")));
 					  return Parser.CTE_CARACTER; }

@@ -47,4 +47,9 @@ public class TipoArray extends AbstractTipo {
         return null;
     }
 
+    @Override
+    public Integer getTamano() {
+        return size * tipo.getTamano();
+    }
+
 }

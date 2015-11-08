@@ -89,4 +89,9 @@ public abstract class AbstractTipo extends AbstractNodoAST implements Tipo {
         return null;
     }
 
+    @Override
+    public Tipo mayor(Tipo tipo) {
+        return null;
+    }
+
 }

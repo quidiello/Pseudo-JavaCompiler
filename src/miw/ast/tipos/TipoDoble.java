@@ -123,4 +123,9 @@ public class TipoDoble extends AbstractTipo {
         return null;
     }
 
+    @Override
+    public Tipo mayor(Tipo tipo) {
+        return this;
+    }
+
 }

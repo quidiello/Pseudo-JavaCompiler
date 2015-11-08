@@ -1,0 +1,36 @@
+#source 'entrada.mini.txt'
+
+call main
+halt
+
+#line 9
+main:
+	enter 4
+	' int a (offset -2)
+	' int b (offset -4)
+#line 6
+	' * Lectura
+	push bp
+	pushi -4
+	addi
+	ini
+	storei
+#line 7
+	push bp
+	pushi -2
+	addi
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 3
+	addi
+	storei
+#line 8
+	' * Excritura
+	push bp
+	pushi -2
+	addi
+	loadi
+	outi
+	ret 0,4,0

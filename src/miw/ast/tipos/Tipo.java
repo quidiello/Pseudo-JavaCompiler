@@ -38,4 +38,6 @@ public interface Tipo extends NodoAST {
 
     Tipo parentesis(List<Expresion> expresiones);
 
+    Tipo mayor(Tipo tipo);
+
 }

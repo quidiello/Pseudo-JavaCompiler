@@ -1,19 +1,9 @@
 /**
  * Programa de prueba. 
  */
- int x;
- char a;
- double c;
- double k;
-void main(int h, double j, char ñ) {
+void main() {
  int a,b;
  read b;
  a = b+3;
  write a;
-}
-
-int f() {
-char a;
-double b;
-return 5;
 }

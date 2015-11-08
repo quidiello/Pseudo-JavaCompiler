@@ -1,0 +1,308 @@
+#source 'entrada.txt'
+
+call main
+halt
+
+#line 43
+main:
+	enter 54
+	' double valor (offset -4)
+	' int i (offset -6)
+	' int j (offset -8)
+	' array w (offset -48)
+	' int dia (offset -50)
+	' int mes (offset -52)
+	' int anio (offset -54)
+#line 12
+	' * Lectura
+	push bp
+	pushi -50
+	addi
+	ini
+	storei
+#line 13
+	push bp
+	pushi -54
+	addi
+	pushb 97
+	b2i
+	storei
+#line 14
+	push bp
+	pushi -52
+	addi
+	push bp
+	pushi -50
+	addi
+	loadi
+	push bp
+	pushi -54
+	addi
+	loadi
+	muli
+	pushi 12
+	modi
+	pushi 1
+	addi
+	storei
+#line 15
+	' * Escritura
+	push bp
+	pushi -50
+	addi
+	loadi
+	outi
+	' * Escritura
+	pushb 10
+	outb
+	' * Escritura
+	push bp
+	pushi -52
+	addi
+	loadi
+	outi
+	' * Escritura
+	pushb 10
+	outb
+	' * Escritura
+	push bp
+	pushi -54
+	addi
+	loadi
+	i2f
+	outf
+	' * Escritura
+	pushb 10
+	outb
+#line 17
+	' * Lectura
+	push bp
+	pushi -4
+	addi
+	inf
+	storef
+#line 19
+	push bp
+	pushi -6
+	addi
+	pushi 0
+	storei
+0:
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 10
+	jz 1
+#line 21
+	pusha 0
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 2
+	mulsufijo
+	addsufijo
+	push bp
+	pushi -4
+	addi
+	loadf
+	storef
+#line 22
+	' * Escritura
+	push bp
+	pushi -6
+	addi
+	loadi
+	outi
+	' * Escritura
+	pushb 58
+	outb
+	' * Escritura
+	pusha 0
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 2
+	mulsufijo
+	addsufijo
+	loadf
+	outf
+	' * Escritura
+	pushb 32
+	outb
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 2
+	modi
+	jz 2
+#line 24
+	' * Escritura
+	pushb 105
+	outb
+	' * Escritura
+	pushb 109
+	outb
+	' * Escritura
+	pushb 112
+	outb
+	' * Escritura
+	pushb 97
+	outb
+	' * Escritura
+	pushb 114
+	outb
+	' * Escritura
+	pushb 10
+	outb
+	jmp 3
+2:
+#line 24
+	' * Escritura
+	pushb 105
+	outb
+	' * Escritura
+	pushb 109
+	outb
+	' * Escritura
+	pushb 112
+	outb
+	' * Escritura
+	pushb 97
+	outb
+	' * Escritura
+	pushb 114
+	outb
+	' * Escritura
+	pushb 10
+	outb
+3:
+#line 27
+	push bp
+	pushi -6
+	addi
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp 0
+1:
+#line 29
+	' * Escritura
+	pushb 10
+	outb
+#line 31
+	push bp
+	pushi -6
+	addi
+	pushi 0
+	storei
+4:
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 4
+	jz 5
+#line 33
+	push bp
+	pushi -8
+	addi
+	pushi 0
+	storei
+6:
+	push bp
+	pushi -8
+	addi
+	loadi
+	pushi 5
+	jz 7
+#line 35
+	push bp
+	pushi -48
+	addi
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 2
+	mulsufijo
+	addsufijo
+	push bp
+	pushi -8
+	addi
+	loadi
+	pushi 2
+	mulsufijo
+	addsufijo
+	push bp
+	pushi -6
+	addi
+	loadi
+	push bp
+	pushi -8
+	addi
+	loadi
+	addi
+	storei
+#line 36
+	' * Escritura
+	push bp
+	pushi -48
+	addi
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 2
+	mulsufijo
+	addsufijo
+	push bp
+	pushi -8
+	addi
+	loadi
+	pushi 2
+	mulsufijo
+	addsufijo
+	loadi
+	outi
+	' * Escritura
+	pushb 32
+	outb
+#line 37
+	push bp
+	pushi -8
+	addi
+	push bp
+	pushi -8
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp 6
+7:
+#line 39
+	' * Escritura
+	pushb 10
+	outb
+#line 40
+	push bp
+	pushi -6
+	addi
+	push bp
+	pushi -6
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp 4
+5:
+	ret 0,54,0

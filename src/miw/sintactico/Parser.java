@@ -817,7 +817,7 @@ boolean doaction;
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
 //#line 33 "../src/miw/sintactico/sintactico.y"
-{ ast = new Programa(lexico.getLinea(), lexico.getColumna(), (List<Definicion>)val_peek(0)); System.err.println(ast); }
+{ ast = new Programa(lexico.getLinea(), lexico.getColumna(), (List<Definicion>)val_peek(0)); }
 break;
 case 2:
 //#line 36 "../src/miw/sintactico/sintactico.y"
